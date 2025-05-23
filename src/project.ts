@@ -1,11 +1,15 @@
-import { makeProject } from '@motion-canvas/core';
-
-import sketch001 from './scenes/example?scene';
-import sketch002 from './scenes/sketch-002?scene';
-import sketch003 from './scenes/sketch-003?scene';
+import { FullSceneDescription, makeProject } from '@motion-canvas/core';
 
 import './global.css';
 
+const sketchCount = 4;
+const sketches = await Promise.all<FullSceneDescription>(
+	Array.from({ length: sketchCount }, async (_, i) => {
+		const key = `${i + 1}`.padStart(3, '0');
+		return (await import(`./scenes/sketch-${key}?scene`)).default;
+	}),
+);
+
 export default makeProject({
-	scenes: [sketch003],
+	scenes: sketches.reverse().slice(0, 1),
 });
