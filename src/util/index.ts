@@ -1,4 +1,4 @@
-import { Gradient } from '@motion-canvas/2d';
+import { Gradient, View2D } from '@motion-canvas/2d';
 import { PossibleColor, Vector2 } from '@motion-canvas/core';
 
 export function createGradient(
@@ -30,4 +30,23 @@ export const positionItemInRow = (
 	const spacing = size + padding;
 	const start = -(count - 1) * 0.5 * spacing;
 	return start + i * spacing;
+};
+
+export const getViewportData = (view: View2D) => {
+	const [viewW, viewH] = [view.width(), view.height()];
+	const landscape = viewW >= viewH;
+	const axisX = 'x' as const;
+	const axisY = 'y' as const;
+	const axes = landscape ? [axisX, axisY] : [axisY, axisX];
+	const [primaryAxis, crossAxis] = axes;
+
+	return {
+		landscape,
+		portrait: !landscape,
+		viewW,
+		viewH,
+		axes,
+		primaryAxis,
+		crossAxis,
+	} as const;
 };

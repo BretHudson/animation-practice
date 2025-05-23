@@ -1,6 +1,6 @@
 import { nodeName, Rect, RectProps, View2D } from '@motion-canvas/2d';
 
-interface BackgroundProps extends RectProps {
+export interface BackgroundProps extends RectProps {
 	view: View2D;
 }
 
