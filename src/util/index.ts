@@ -1,5 +1,11 @@
 import { Gradient, View2D } from '@motion-canvas/2d';
-import { PossibleColor, Vector2 } from '@motion-canvas/core';
+import {
+	all,
+	PossibleColor,
+	ThreadGenerator,
+	tween,
+	Vector2,
+} from '@motion-canvas/core';
 
 export function createGradient(
 	w: number,
@@ -39,6 +45,9 @@ export const getViewportData = (view: View2D) => {
 	const axisY = 'y' as const;
 	const axes = landscape ? [axisX, axisY] : [axisY, axisX];
 	const [primaryAxis, crossAxis] = axes;
+	const byOrientation = <T>(primary: T, cross: T): T => {
+		return landscape ? primary : cross;
+	};
 
 	return {
 		landscape,
@@ -48,5 +57,22 @@ export const getViewportData = (view: View2D) => {
 		axes,
 		primaryAxis,
 		crossAxis,
+		byOrientation,
 	} as const;
 };
+
+export function* repeat(
+	iterations: number,
+	thing: (iterationIndex: number) => ThreadGenerator,
+) {
+	for (let i = 0; i < iterations; ++i) {
+		yield* thing(i);
+	}
+}
+
+export function* allMap<T>(
+	arr: T[],
+	callback: (item: T, index: number) => ThreadGenerator,
+) {
+	yield* all(...arr.map(callback));
+}
