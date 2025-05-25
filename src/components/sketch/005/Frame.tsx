@@ -13,7 +13,6 @@ import {
 	SignalValue,
 	SimpleSignal,
 } from '@motion-canvas/core';
-import { positionItemInRow } from '../../../util';
 
 interface FrameProps extends LayoutProps {
 	src?: SignalValue<string | null>;

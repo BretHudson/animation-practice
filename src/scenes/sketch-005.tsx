@@ -1,40 +1,35 @@
 // NOTE(bret): Continued from sketch-004
 
 import { makeScene2D, Txt, View2D } from '@motion-canvas/2d';
-import { Background } from '../components/Background';
+import { Background } from '~/components/Background';
 import {
 	allMap,
 	chainWithWait,
 	createGradient,
 	getViewportData,
 	repeat,
-} from '../util';
+} from '~/util';
 import {
 	all,
 	chain,
 	createRef,
-	easeInOutQuad,
 	easeOutQuad,
 	makeRef,
-	map,
 	range,
 	sequence,
-	tween,
-	waitFor,
-	easeInOutCubic,
-	ThreadGenerator,
 	createSignal,
 	DEFAULT,
 } from '@motion-canvas/core';
 
-import enemyFrame1 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan1.png';
-import enemyFrame2 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan2.png';
-import enemyFrame3 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan3.png';
-import enemyFrame4 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan4.png';
-import enemyFrame5 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan5.png';
-import { Credits } from '../components/Credits';
-import { Frame } from '../components/sketch/005/Frame';
-import { FramesLayout } from '../components/sketch/005/FramesLayout';
+import { Credits } from '~/components/Credits';
+import { Frame } from '~/components/sketch/005/Frame';
+import { FramesLayout } from '~/components/sketch/005/FramesLayout';
+
+import enemyFrame1 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan1.png';
+import enemyFrame2 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan2.png';
+import enemyFrame3 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan3.png';
+import enemyFrame4 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan4.png';
+import enemyFrame5 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan5.png';
 
 const waitDur = 0.3;
 

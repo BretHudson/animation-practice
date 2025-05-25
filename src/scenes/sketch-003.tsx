@@ -1,6 +1,4 @@
 import { Layout, makeScene2D, Rect, Txt } from '@motion-canvas/2d';
-import { Background } from '../components/Background';
-import { createGradient, positionItemInRow, tToRadians } from '../util';
 import {
 	all,
 	createRef,
@@ -12,6 +10,8 @@ import {
 	tween,
 	waitFor,
 } from '@motion-canvas/core';
+import { Background } from '~/components/Background';
+import { createGradient, positionItemInRow, tToRadians } from '~/util';
 
 const waitDur = 0.3;
 

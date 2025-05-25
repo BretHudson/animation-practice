@@ -1,28 +1,21 @@
 import {
-	ComponentChildren,
 	initial,
 	Layout,
 	LayoutProps,
-	Node,
 	nodeName,
 	signal,
 } from '@motion-canvas/2d';
 import {
 	all,
-	chain,
-	createSignal,
 	easeInOutCubic,
 	easeInOutQuad,
-	map,
 	sequence,
 	SignalValue,
 	SimpleSignal,
 	ThreadGenerator,
-	tween,
-	waitFor,
 } from '@motion-canvas/core';
 import type { Frame } from './Frame';
-import { allMap, positionItemInRow } from '../../../util';
+import { allMap, positionItemInRow } from '~/util';
 
 interface FramesLayoutProps extends LayoutProps {
 	frameSize: SignalValue<number>;

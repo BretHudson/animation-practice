@@ -4,7 +4,6 @@ import {
 	chain,
 	PossibleColor,
 	ThreadGenerator,
-	tween,
 	Vector2,
 	waitFor,
 } from '@motion-canvas/core';
