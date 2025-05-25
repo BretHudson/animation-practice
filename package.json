@@ -1,22 +1,24 @@
 {
-  "name": "animation-practice",
-  "private": true,
-  "version": "0.0.0",
-  "scripts": {
-    "start": "vite",
-    "serve": "vite",
-    "build": "tsc && vite build"
-  },
-  "dependencies": {
-    "@motion-canvas/2d": "^3.17.2",
-    "@motion-canvas/core": "^3.17.2",
-    "@motion-canvas/ffmpeg": "^1.1.0"
-  },
-  "devDependencies": {
-    "@motion-canvas/ui": "^3.17.2",
-    "@motion-canvas/vite-plugin": "^3.17.2",
-    "@types/node": "^22.15.21",
-    "typescript": "^5.2.2",
-    "vite": "^4.0.0"
-  }
+	"name": "animation-practice",
+	"private": true,
+	"version": "0.0.0",
+	"packageManager": "pnpm@10.11.0",
+	"scripts": {
+		"preinstall": "npx only-allow pnpm",
+		"start": "vite",
+		"serve": "vite",
+		"build": "tsc && vite build"
+	},
+	"dependencies": {
+		"@motion-canvas/2d": "^3.17.2",
+		"@motion-canvas/core": "^3.17.2",
+		"@motion-canvas/ffmpeg": "^1.1.0"
+	},
+	"devDependencies": {
+		"@motion-canvas/ui": "^3.17.2",
+		"@motion-canvas/vite-plugin": "^3.17.2",
+		"@types/node": "^22.15.21",
+		"typescript": "^5.2.2",
+		"vite": "^4.0.0"
+	}
 }
