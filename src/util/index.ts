@@ -1,10 +1,12 @@
 import { Gradient, View2D } from '@motion-canvas/2d';
 import {
 	all,
+	chain,
 	PossibleColor,
 	ThreadGenerator,
 	tween,
 	Vector2,
+	waitFor,
 } from '@motion-canvas/core';
 
 export function createGradient(
@@ -75,4 +77,16 @@ export function* allMap<T>(
 	callback: (item: T, index: number) => ThreadGenerator,
 ) {
 	yield* all(...arr.map(callback));
+}
+
+export function* chainWithWait(
+	waitSeconds: number,
+	...items: ThreadGenerator[]
+) {
+	yield* waitFor(waitSeconds);
+	yield* chain(
+		...items.map((item) => {
+			return chain(item, waitFor(waitSeconds));
+		}),
+	);
 }
