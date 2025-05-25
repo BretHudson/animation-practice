@@ -13,7 +13,7 @@
     "audioOffset": 0
   },
   "preview": {
-    "fps": 60,
+    "fps": 30,
     "resolutionScale": 1
   },
   "rendering": {
@@ -21,10 +21,11 @@
     "resolutionScale": 1,
     "colorSpace": "srgb",
     "exporter": {
-      "name": "@motion-canvas/ffmpeg",
+      "name": "@motion-canvas/core/image-sequence",
       "options": {
-        "fastStart": true,
-        "includeAudio": true
+        "fileType": "image/png",
+        "quality": 100,
+        "groupByScene": false
       }
     }
   }
