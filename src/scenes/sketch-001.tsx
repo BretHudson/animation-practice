@@ -13,13 +13,15 @@ import {
 	easeOutCubic,
 	loop,
 	makeRef,
+	map,
 	sin,
 	ThreadGenerator,
 	tween,
 	useRandom,
 	Vector2,
 } from '@motion-canvas/core';
-import { TxtLetters } from '~/components/TxtLetters';
+import { TxtLetters } from '../components/TxtLetters';
+import { TxtLeaf } from '@motion-canvas/2d/lib/components/TxtLeaf';
 
 const textProps = {
 	fill: 'white',
