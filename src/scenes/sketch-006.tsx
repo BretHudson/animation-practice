@@ -1,18 +1,14 @@
-// NOTE(bret): Continued from sketch-004
-
 import {
 	Code,
 	Layout,
 	makeScene2D,
 	nodeName,
-	Node,
-	NodeProps,
 	Txt,
 	signal,
 	LayoutProps,
 	initial,
 } from '@motion-canvas/2d';
-import { allMap, positionItemInRow } from '~/util';
+import { allMap, getViewportData, positionItemInRow } from '~/util';
 import {
 	all,
 	makeRef,
@@ -21,7 +17,6 @@ import {
 	waitFor as _waitFor,
 	chain,
 	createRef,
-	sequence,
 	SimpleSignal,
 	SignalValue,
 } from '@motion-canvas/core';
@@ -88,7 +83,7 @@ export class ValueDisplay extends Layout {
 }
 
 export default makeScene2D(function* (view) {
-	// const { byOrientation } = getViewportData(view);
+	const { landscape } = getViewportData(view);
 
 	addBgCredits(view, 2017, 1, 1);
 
@@ -97,9 +92,19 @@ export default makeScene2D(function* (view) {
 	const curExample = createSignal(0);
 	const y = createSignal(() => curExample() * -yGap);
 
-	const xPos = part1Examples.map(() => createSignal(0));
+	const examples = part1Examples.map((e) => {
+		if (landscape) return e;
+		const shortened = e
+			.join('')
+			.replace('91212129', '912129')
+			.split('')
+			.map(Number);
+		return shortened;
+	});
 
-	const cells = part1Examples.map(() => [] as Cell[]);
+	const xPos = examples.map(() => createSignal(0));
+
+	const cells = examples.map(() => [] as Cell[]);
 
 	const speed = createSignal(1);
 
@@ -109,7 +114,7 @@ export default makeScene2D(function* (view) {
 
 	view.add(
 		<Layout y={y}>
-			{part1Examples.map((input, index) => (
+			{examples.map((input, index) => (
 				<Layout
 					x={xPos[index]}
 					y={index * yGap}
@@ -159,13 +164,13 @@ export default makeScene2D(function* (view) {
 		yield* waitFor(waitDur * 2);
 	}
 
-	const numExamples = part1Examples.length;
+	const numExamples = examples.length;
 	for (let i = 0; i < numExamples; ++i) {
 		const e = curExample();
 
 		yield* sumDisplay().set(0);
 
-		const input = part1Examples[e];
+		const input = examples[e];
 		const n = input.length;
 		for (let i = 0; i < n; ++i) {
 			const next = (i + 1) % n;
@@ -198,7 +203,6 @@ export default makeScene2D(function* (view) {
 			allMap(cells[e], (cell) => cell.deselect()),
 			chain(waitFor(0.1), all(curDisplay().set(-1), nextDisplay().set(-1))),
 		);
-		// yield* allMap(cells[e], (cell) => cell.reset());
 		yield* waitFor(waitDur * 3);
 
 		yield* all(

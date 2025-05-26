@@ -4,10 +4,13 @@ import {
 	nodeName,
 	type PossibleCanvasStyle,
 	Txt,
+	View2D,
 } from '@motion-canvas/2d';
+import { getViewportData } from '~/util';
 import { AoCTheme } from '~/util/themes';
 
 export interface CreditsProps extends LayoutProps {
+	view?: View2D;
 	title: string;
 	author: string;
 	fontFamily?: string;
@@ -46,12 +49,17 @@ export class Credits extends Layout {
 	}
 
 	public static AoC(props: CreditsProps) {
-		return new Credits({
+		const credits = new Credits({
 			...props,
 			fontFamily: AoCTheme.fontFamily,
 			fontSize1: 32,
 			color1: AoCTheme.white,
 			color2: AoCTheme.gray,
 		});
+
+		const { byOrientation } = getViewportData(props.view);
+		credits.padding([byOrientation(12, 100), 20]);
+
+		return credits;
 	}
 }
