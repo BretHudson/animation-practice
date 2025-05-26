@@ -1,6 +1,4 @@
 import { Img, Layout, makeScene2D, Rect } from '@motion-canvas/2d';
-import { Background } from '../components/Background';
-import { createGradient, getViewportData, positionItemInRow } from '../util';
 import {
 	all,
 	chain,
@@ -16,13 +14,15 @@ import {
 	waitFor,
 	easeInOutCubic,
 } from '@motion-canvas/core';
+import { Background } from '~/components/Background';
+import { Credits } from '~/components/Credits';
+import { createGradient, getViewportData, positionItemInRow } from '~/util';
 
-import enemyFrame1 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan1.png';
-import enemyFrame2 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan2.png';
-import enemyFrame3 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan3.png';
-import enemyFrame4 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan4.png';
-import enemyFrame5 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan5.png';
-import { Credits } from '../components/Credits';
+import enemyFrame1 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan1.png';
+import enemyFrame2 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan2.png';
+import enemyFrame3 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan3.png';
+import enemyFrame4 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan4.png';
+import enemyFrame5 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan5.png';
 
 const waitDur = 0.3;
 

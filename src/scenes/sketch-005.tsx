@@ -1,107 +1,45 @@
 // NOTE(bret): Continued from sketch-004
 
-import {
-	Img,
-	Layout,
-	LayoutProps,
-	makeScene2D,
-	Node,
-	nodeName,
-	NodeProps,
-	Rect,
-	signal,
-	Txt,
-} from '@motion-canvas/2d';
-import { Background } from '../components/Background';
+import { makeScene2D, Txt, View2D } from '@motion-canvas/2d';
+import { Background } from '~/components/Background';
 import {
 	allMap,
+	chainWithWait,
 	createGradient,
 	getViewportData,
-	positionItemInRow,
 	repeat,
-} from '../util';
+} from '~/util';
 import {
 	all,
 	chain,
 	createRef,
-	easeInQuad,
-	easeInOutQuad,
 	easeOutQuad,
 	makeRef,
-	map,
 	range,
 	sequence,
-	tween,
-	waitFor,
-	easeInOutCubic,
-	SignalValue,
-	SimpleSignal,
+	createSignal,
+	DEFAULT,
 } from '@motion-canvas/core';
 
-import enemyFrame1 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan1.png';
-import enemyFrame2 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan2.png';
-import enemyFrame3 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan3.png';
-import enemyFrame4 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan4.png';
-import enemyFrame5 from '../assets/kenney_jumper-pack/PNG/Enemies/wingMan5.png';
-import { Credits } from '../components/Credits';
+import { Credits } from '~/components/Credits';
+import { Frame } from '~/components/sketch/005/Frame';
+import { FramesLayout } from '~/components/sketch/005/FramesLayout';
+
+import enemyFrame1 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan1.png';
+import enemyFrame2 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan2.png';
+import enemyFrame3 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan3.png';
+import enemyFrame4 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan4.png';
+import enemyFrame5 from '~/assets/kenney_jumper-pack/PNG/Enemies/wingMan5.png';
 
 const waitDur = 0.3;
 
-interface FrameProps extends LayoutProps {
-	src?: SignalValue<string | null>;
-	outlineOpacity?: SignalValue<number | null>;
-}
-
-@nodeName('Frame')
-class Frame extends Layout {
-	@signal()
-	public declare readonly src: SimpleSignal<string, this>;
-
-	@signal()
-	public declare readonly outlineOpacity: SimpleSignal<number, this>;
-
-	public img = createRef<Img>();
-
-	public constructor(props: FrameProps) {
-		super(props);
-
-		this.outlineOpacity(0);
-
-		const img = <Img ref={this.img} src={this.src} />;
-
-		this.add(
-			<Layout>
-				<Rect width={this.img().width} height={this.img().height} fill="#888" />
-				{img}
-			</Layout>,
-		);
-		this.add(
-			<Rect
-				width={this.img().width}
-				height={this.img().height}
-				stroke="white"
-				lineWidth={5}
-				opacity={this.outlineOpacity}
-				strokeFirst
-				zIndex={1}
-			/>,
-		);
-	}
-
-	protected override applyFlex() {
-		super.applyFlex();
-	}
-}
-
-export default makeScene2D(function* (view) {
+function addBgCredits(view: View2D, title: string) {
 	const { portrait, viewW, viewH, byOrientation } = getViewportData(view);
 
 	const bg = createRef<Background>();
 
-	let titleStr = 'Animating Spritesheets';
-	if (portrait) {
-		titleStr = titleStr.toUpperCase();
-	}
+	let titleStr = title;
+	if (portrait) titleStr = titleStr.toUpperCase();
 
 	view.add(
 		<>
@@ -133,18 +71,12 @@ export default makeScene2D(function* (view) {
 			/>
 		</>,
 	);
+}
 
-	const getPosition = (
-		i: number,
-		count: number,
-		size: number,
-		padding: number,
-		crossPos = 0,
-	) => {
-		const pos = positionItemInRow(i, count, size, padding);
-		const [x, y] = [pos, crossPos];
-		return { x, y };
-	};
+export default makeScene2D(function* (view) {
+	const { byOrientation } = getViewportData(view);
+
+	addBgCredits(view, 'Animating Spritesheets');
 
 	const enemyFrames = [
 		enemyFrame1,
@@ -154,113 +86,84 @@ export default makeScene2D(function* (view) {
 		enemyFrame5,
 	].slice(0, byOrientation(5, 3));
 
+	const n = enemyFrames.length - 1;
+	const animationFrames = [...range(n), ...range(n).map((i) => n - i)];
+
 	const frames: Frame[] = [];
-	const size = 256;
-	const padding = 0;
 
-	const container = createRef<Layout>();
-
+	const container = createRef<FramesLayout>();
 	const preview = createRef<Frame>();
 
+	const curFrame = createSignal(0);
+	const curFrameSrc = createSignal(() => enemyFrames[curFrame()]);
+
 	view.add(
-		<Layout ref={container}>
-			{range(enemyFrames.length).map((index) => {
-				const curSize = size;
-				const sizeProps = { width: curSize, height: curSize };
-				const pos = getPosition(index, enemyFrames.length, curSize, padding);
-				return (
-					<Frame
-						{...pos}
-						{...sizeProps}
-						src={enemyFrames[index]}
-						ref={makeRef(frames, index)}
-						zIndex={Math.abs((index - 1) * 2)}
-					/>
-				);
-			})}
-		</Layout>,
+		<FramesLayout ref={container} frameSize={Frame.initialSize}>
+			{range(enemyFrames.length).map((index) => (
+				<Frame
+					x={createSignal(() => container().getPosition(index))}
+					src={enemyFrames[index]}
+					ref={makeRef(frames, index)}
+					zIndex={Math.abs((index - 1) * 2)}
+				/>
+			))}
+		</FramesLayout>,
 	);
 
 	view.add(
 		<Frame
 			ref={preview}
-			width={size}
-			height={size}
-			src={enemyFrame1}
+			width={Frame.initialSize}
+			height={Frame.initialSize}
+			src={curFrameSrc}
 			opacity={0}
 		/>,
 	);
 
-	function* reset() {
+	function* fadeOut() {
 		yield* allMap([container, preview], (item) => {
 			return item().opacity(0, 0.5, easeOutQuad);
 		});
+	}
 
-		yield* waitFor(waitDur);
-
-		frames.forEach((frame, index) => {
-			container().position(0);
-			container().scale(1);
-			const pos = getPosition(index, enemyFrames.length, size, padding);
-			frame.position(pos);
-			frame.outlineOpacity(0);
-			frame.opacity(1);
+	function* reset() {
+		container().position(DEFAULT);
+		container().scale(DEFAULT);
+		container().spacing(DEFAULT);
+		frames.forEach((frame) => {
+			frame.outlineOpacity(DEFAULT);
+			frame.opacity(DEFAULT);
 		});
+	}
 
+	function* fadeIn() {
 		yield* container().opacity(1, 0.5, easeOutQuad);
 	}
 
 	function* highlightFrame(index?: number, duration = 0.08) {
-		const unfocus = index !== undefined ? 0.5 : 1;
-		preview().src(enemyFrames[index ?? 0]);
-		yield* allMap(frames, (frame, i) => {
-			const newV = +(index === i) || unfocus;
-			return frame.opacity(newV, duration);
-		});
+		curFrame(index || 0);
+		yield* container().highlightFrame(index, duration);
 	}
 
-	// actual animation begins here
-	yield* waitFor(waitDur);
-
-	yield* sequence(
-		0.1,
-		allMap(frames, (frame) => frame.outlineOpacity(1, 0.3, easeInQuad)),
-	);
-
-	yield* waitFor(waitDur);
-
-	yield* allMap(range(enemyFrames.length), (index) => {
-		const splitIntoFrames = tween(0.4, (value) => {
-			const t = easeInOutQuad(value);
-			const pos = getPosition(index, enemyFrames.length, size, map(0, 32, t));
-			frames[index].position(pos);
-		});
-
-		const transitionToTop = all(
-			container().scale(0.5, 0.6, easeInOutCubic),
-			container().position.y(-300, 0.6, easeInOutCubic),
-		);
-
-		return chain(splitIntoFrames, waitFor(waitDur), transitionToTop);
-	});
-
-	yield* waitFor(waitDur);
-
-	yield* all(highlightFrame(0, 0.3), preview().opacity(1, 0.3));
-
-	yield* waitFor(waitDur);
-
-	const n = frames.length - 1;
-	const animationFrames = [...range(n), ...range(n).map((i) => n - i)];
 	function* animate(iterations: number, delay: number) {
 		yield* repeat(iterations, () =>
 			sequence(delay, ...animationFrames.map((index) => highlightFrame(index))),
 		);
 	}
 
-	yield* chain(animate(1, 0.5), animate(1, 0.25), animate(3, 0.1));
-
-	yield* highlightFrame(0);
-
-	yield* chain(waitFor(waitDur), reset(), waitFor(waitDur));
+	yield* chainWithWait(
+		waitDur,
+		container().showOutlines(),
+		container().splitFrames(),
+		container().transitionToTop(),
+		all(highlightFrame(0, 0.3), preview().opacity(1, 0.3)),
+		chain(
+			animate(1, 0.5),
+			animate(1, 0.25),
+			animate(3, 0.1),
+			highlightFrame(0),
+		),
+		chain(fadeOut(), reset()),
+		fadeIn(),
+	);
 });
