@@ -58,6 +58,7 @@ export class ValueDisplay extends Layout {
 	public declare readonly speed: SimpleSignal<number, this>;
 
 	private codeRef = createRef<Code>();
+	private n = 0;
 
 	public constructor(props: ValueDisplayProps) {
 		super(props);
@@ -74,7 +75,11 @@ export class ValueDisplay extends Layout {
 
 	public *set(value: number) {
 		this.value(value);
-		yield* this.codeRef().code(valueToString(this.value()), 0.4 / this.speed());
+
+		yield* this.codeRef().code(
+			'​'.repeat(++this.n) + valueToString(this.value()),
+			0.5 / this.speed(),
+		);
 	}
 
 	public *increment(inc: number) {
@@ -182,9 +187,11 @@ export default makeScene2D(function* (view) {
 					// blah
 					all(
 						//blah
-						chain(curDisplay().set(-1), curDisplay().set(input[i])),
-						chain(nextDisplay().set(-1), nextDisplay().set(input[next])),
-						chain(waitFor(0.25), cell.select()),
+						chain(
+							waitFor(0.3),
+							all(curDisplay().set(input[i]), nextDisplay().set(input[next])),
+						),
+						cell.select(),
 					),
 					waitFor(0.2),
 					cell.validate(valid),

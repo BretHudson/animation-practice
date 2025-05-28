@@ -6,13 +6,14 @@ import {
 	Txt,
 	View2D,
 } from '@motion-canvas/2d';
+import { SimpleSignal } from '@motion-canvas/core';
 import { getViewportData } from '~/util';
 import { AoCTheme } from '~/util/themes';
 
 export interface CreditsProps extends LayoutProps {
 	view?: View2D;
-	title: string;
-	author: string;
+	title?: SimpleSignal<string>;
+	author: SimpleSignal<string>;
 	fontFamily?: string;
 	fontSize1?: number;
 	fontSize2?: number;
