@@ -22,6 +22,7 @@ export interface CellProps extends RectProps {
 	size: SignalValue<number>;
 	value: SignalValue<string>;
 	speed?: SignalValue<number | null>;
+	initialValue?: number;
 }
 
 const defaultLineWidth = 5;
@@ -48,34 +49,52 @@ export class Cell extends Rect {
 	@signal()
 	public declare readonly speed: SimpleSignal<number, this>;
 
-	// @initial('')
-	// @signal()
-	// public declare readonly value: SimpleSignal<string, this>;
+	public value: SimpleSignal<number>;
 
 	@initial(AoCTheme.gray)
 	@canvasStyleSignal()
 	public declare readonly textFill: CanvasStyleSignal<this>;
 
+	@initial('')
+	@signal()
+	public declare readonly text: SimpleSignal<string, this>;
+
+	public initialValue: number;
+
 	public constructor(props: CellProps) {
 		super(props);
+
+		this.initialValue = props.initialValue;
+
+		this.value = createSignal<number>(() => {
+			const txt = this.txt().text();
+			if (txt === '∞') return this.initialValue;
+			if (txt === '-∞') return this.initialValue;
+			if (txt) return +txt;
+			return this.initialValue;
+		});
 
 		this.width(props.size);
 		this.height(props.size);
 
 		this.radius(2);
 
-		this.add(
-			<Txt
-				alignContent="center"
-				textAlign="center"
-				width={props.size}
-				height={props.size}
-				ref={this.txt}
-				text={props.value}
-				fill={this.textFill}
-				fontFamily={AoCTheme.fontFamily}
-			/>,
-		);
+		this.text(props.value);
+
+		if (this.children().length === 0) {
+			this.add(
+				<Txt
+					alignContent="center"
+					textAlign="center"
+					width={props.size}
+					height={props.size}
+					ref={this.txt}
+					text={this.text}
+					fill={this.textFill}
+					fontFamily={AoCTheme.fontFamily}
+				/>,
+			);
+		}
 	}
 
 	get dur() {
@@ -124,5 +143,25 @@ export class Cell extends Rect {
 			this.opacity(1, dur),
 			this.textFill(DEFAULT, dur),
 		);
+	}
+
+	public updateValue(value: number) {
+		let txt = value.toString();
+		if (value === Infinity) txt = '∞';
+		if (value === -Infinity) txt = '-∞';
+		this.text(txt);
+	}
+
+	public *updateValueWithTransition(value: number, dur = 0.3) {
+		yield* this.txt().opacity(0, dur);
+		yield* this.updateValueYield(value);
+		yield* this.txt().opacity(1, dur);
+	}
+
+	public *updateValueYield(value: number) {
+		let txt = value.toString();
+		if (value === Infinity) txt = '∞';
+		if (value === -Infinity) txt = '-∞';
+		yield* this.text(txt, 0);
 	}
 }

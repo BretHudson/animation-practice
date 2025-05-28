@@ -4,10 +4,12 @@ export const AoCTheme = {
 	white: '#fff',
 	gray: '#cccccc',
 	darkGray: '#999',
-	yellow: '#ffff66',
 	green: '#009900',
-	red: '#cc0000',
-
+	blue: '#0066ff',
+	purple: '#990099',
+	yellow: '#ffff66',
+	orange: '#ff9900',
+	red: '#ff0000',
 	codeBackground: '#10101a',
 	codeBorder: '#333340',
 };

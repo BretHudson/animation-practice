@@ -12,8 +12,8 @@ import { AoCTheme } from '~/util/themes';
 
 export interface CreditsProps extends LayoutProps {
 	view?: View2D;
-	title?: SimpleSignal<string>;
-	author: SimpleSignal<string>;
+	title?: string | SimpleSignal<string>;
+	author: string | SimpleSignal<string>;
 	fontFamily?: string;
 	fontSize1?: number;
 	fontSize2?: number;

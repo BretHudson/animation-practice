@@ -5,11 +5,17 @@ import { getViewportData } from '~/util';
 import { Credits } from '../Credits';
 import { AoCTheme } from '~/util/themes';
 
+interface Options {
+	sketchId: number;
+	year: number;
+	day: number;
+	part: number;
+	wip: boolean;
+}
+
 export function addBgCredits(
 	view: View2D,
-	year: number,
-	day: number,
-	part: number,
+	{ sketchId, year, day, part, wip }: Options,
 ) {
 	const { byOrientation, viewW, viewH } = getViewportData(view);
 
@@ -33,18 +39,16 @@ export function addBgCredits(
 				<Txt
 					text={`Advent of Code ${year}`}
 					fill={AoCTheme.gray}
-					fontFamily={AoCTheme.fontFamily}
 					fontSize={fontSize}
 				/>
 				<Txt
 					text={`Day ${day} Solution (Part ${part})`}
 					fill={AoCTheme.yellow}
-					fontFamily={AoCTheme.fontFamily}
 					fontSize={fontSize}
 				/>
 			</Layout>
 			<Credits.AoC
-				title="Sketch 006"
+				title={`Sketch ${sketchId.toString().padStart(3, '0')}`}
 				author="Bret Hudson"
 				textAlign="right"
 				bottomRight={bg().bottomRight}
@@ -52,6 +56,20 @@ export function addBgCredits(
 			/>
 		</>,
 	);
+
+	if (wip) {
+		view.add(
+			<Txt
+				text="*WIP*"
+				fill={AoCTheme.orange}
+				zIndex={100000}
+				fontSize={100}
+				rotation={byOrientation(-10, -7)}
+				topLeft={bg().topLeft}
+				padding={byOrientation([70, 30], [260, 0])}
+			/>,
+		);
+	}
 
 	return bg;
 }

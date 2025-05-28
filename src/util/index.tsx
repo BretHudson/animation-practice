@@ -2,11 +2,14 @@ import { Gradient, View2D } from '@motion-canvas/2d';
 import {
 	all,
 	chain,
+	createSignal,
 	PossibleColor,
 	ThreadGenerator,
 	Vector2,
 	waitFor,
 } from '@motion-canvas/core';
+import { Background } from '~/components/Background';
+import { Credits } from '~/components/Credits';
 
 export function createGradient(
 	w: number,
@@ -46,7 +49,7 @@ export const getViewportData = (view: View2D) => {
 	const axisY = 'y' as const;
 	const axes = landscape ? [axisX, axisY] : [axisY, axisX];
 	const [primaryAxis, crossAxis] = axes;
-	const byOrientation = <T>(primary: T, cross: T): T => {
+	const byOrientation = <T,>(primary: T, cross: T): T => {
 		return landscape ? primary : cross;
 	};
 
@@ -89,3 +92,33 @@ export function* chainWithWait(
 		}),
 	);
 }
+
+export function getSketchId(importMetaUrl: string) {
+	return +/sketch-(\d+)/.exec(importMetaUrl)[1];
+}
+
+export const initSpeed = (view: View2D, bg: Background, base = 1) => {
+	const speed = createSignal(base);
+	const speedStr = createSignal(() => `Speed: ${(speed() / base).toFixed(1)}x`);
+
+	view.add(
+		<Credits.AoC
+			author={speedStr}
+			textAlign="left"
+			bottomLeft={bg.bottomLeft}
+			view={view}
+		/>,
+	);
+
+	function* _waitFor(value: number) {
+		yield* waitFor(value / speed());
+	}
+
+	const adjust = (value: number) => value / speed();
+
+	return {
+		speed,
+		adjust,
+		waitFor: _waitFor,
+	};
+};

@@ -6,6 +6,11 @@ I'm attending Recurse Center over summer 2025. This is a repository of the daily
 
 <details open>
   <summary>Sketch 007</summary>
+  <video controls loop src="https://github.com/user-attachments/assets/ed824042-3f29-4fa9-aa7c-cc8c16cacb7c"></video>
+</details>
+
+<details>
+  <summary>Sketch 007</summary>
   <video controls loop src="https://github.com/user-attachments/assets/78958fbc-ccb8-45f4-ba4e-5e01734c1144"></video>
 </details>
 

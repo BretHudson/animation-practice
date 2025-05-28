@@ -154,6 +154,7 @@ export default makeScene2D(function* (view) {
 		<Line
 			points={points}
 			radius={4}
+			lineDash={[10, 10]}
 			ref={nextArrow}
 			lineWidth={3}
 			endArrow
