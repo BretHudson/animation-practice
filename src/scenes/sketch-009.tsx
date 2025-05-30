@@ -63,7 +63,12 @@ export default makeScene2D(function* (view) {
 	});
 
 	// TODO(bret): useSpeed() hook
-	const { speed, adjust, waitFor, ref: speedRef } = initSpeed(view, bg());
+	const {
+		speed,
+		adjust,
+		waitFor,
+		ref: speedRef,
+	} = initSpeed(view, bg(), byOrientation(1, 2));
 	speedRef().opacity(0);
 
 	const yGap = 120;
