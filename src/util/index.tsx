@@ -2,6 +2,7 @@ import { Gradient, View2D } from '@motion-canvas/2d';
 import {
 	all,
 	chain,
+	createRef,
 	createSignal,
 	PossibleColor,
 	ThreadGenerator,
@@ -100,9 +101,11 @@ export function getSketchId(importMetaUrl: string) {
 export const initSpeed = (view: View2D, bg: Background, base = 1) => {
 	const speed = createSignal(base);
 	const speedStr = createSignal(() => `Speed: ${(speed() / base).toFixed(1)}x`);
+	const ref = createRef<Credits>();
 
 	view.add(
 		<Credits.AoC
+			ref={ref}
 			author={speedStr}
 			textAlign="left"
 			bottomLeft={bg.bottomLeft}
@@ -120,5 +123,6 @@ export const initSpeed = (view: View2D, bg: Background, base = 1) => {
 		speed,
 		adjust,
 		waitFor: _waitFor,
+		ref,
 	};
 };

@@ -10,11 +10,13 @@ import {
 } from '@motion-canvas/2d';
 import {
 	all,
+	Color,
 	createRef,
 	createSignal,
 	DEFAULT,
 	SignalValue,
 	SimpleSignal,
+	tween,
 } from '@motion-canvas/core';
 import { AoCTheme } from '~/util/themes';
 
@@ -81,20 +83,21 @@ export class Cell extends Rect {
 
 		this.text(props.value);
 
-		if (this.children().length === 0) {
-			this.add(
-				<Txt
-					alignContent="center"
-					textAlign="center"
-					width={props.size}
-					height={props.size}
-					ref={this.txt}
-					text={this.text}
-					fill={this.textFill}
-					fontFamily={AoCTheme.fontFamily}
-				/>,
-			);
-		}
+		// handy for this.clone();
+		this.removeChildren();
+
+		this.add(
+			<Txt
+				alignContent="center"
+				textAlign="center"
+				width={props.size}
+				height={props.size}
+				ref={this.txt}
+				text={this.text}
+				fill={this.textFill}
+				fontFamily={AoCTheme.fontFamily}
+			/>,
+		);
 	}
 
 	get dur() {
@@ -113,6 +116,21 @@ export class Cell extends Rect {
 			this.stroke(AoCTheme.white, dur),
 			this.textFill(AoCTheme.white, dur),
 			this.opacity(1, dur),
+		);
+	}
+
+	public *selectText(dur = this.dur) {
+		const curFill = new Color(this.fill() as unknown as string);
+		yield* all(
+			this.fill(DEFAULT, dur),
+			// this.textFill(AoCTheme.white, dur),
+			this.opacity(1, dur),
+			tween(dur, (value) => {
+				const scale = value * Math.PI;
+				const sin = Math.sin(scale) * 0.3;
+				// this.scale(1 + 0.2 * sin);
+				this.fill(Color.lerp(curFill, AoCTheme.white, sin));
+			}),
 		);
 	}
 
@@ -138,6 +156,7 @@ export class Cell extends Rect {
 
 	public *reset(dur = this.dur) {
 		yield* all(
+			this.lineWidth(DEFAULT, dur),
 			this.fill(DEFAULT, dur),
 			this.stroke(DEFAULT, dur),
 			this.opacity(1, dur),

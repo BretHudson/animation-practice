@@ -61,6 +61,8 @@ export class Credits extends Layout {
 		const { byOrientation } = getViewportData(props.view);
 		credits.padding([byOrientation(12, 100), 20]);
 
+		props.ref?.(credits);
+
 		return credits;
 	}
 }

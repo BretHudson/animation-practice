@@ -10,7 +10,7 @@ interface Options {
 	year: number;
 	day: number;
 	part: number;
-	wip: boolean;
+	wip?: boolean;
 }
 
 export function addBgCredits(
