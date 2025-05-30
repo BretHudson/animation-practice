@@ -5,6 +5,11 @@ I'm attending Recurse Center over summer 2025. This is a repository of the daily
 ## Sketches
 
 <details open>
+  <summary>Sketch 010</summary>
+  <video controls loop src="https://github.com/user-attachments/assets/30d75aa9-7414-4e04-9cd1-3d0206dec4cd"></video>
+</details>
+
+<details>
   <summary>Sketch 009</summary>
   <video controls loop src="https://github.com/user-attachments/assets/63555697-4605-4e0d-8e55-baa3accdeb13"></video>
 </details>

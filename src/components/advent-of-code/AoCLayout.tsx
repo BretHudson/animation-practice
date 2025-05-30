@@ -11,11 +11,12 @@ interface Options {
 	day: number;
 	part: number;
 	wip?: boolean;
+	hideTitle?: boolean;
 }
 
 export function addBgCredits(
 	view: View2D,
-	{ sketchId, year, day, part, wip }: Options,
+	{ sketchId, year, day, part, wip, hideTitle }: Options,
 ) {
 	const { byOrientation, viewW, viewH } = getViewportData(view);
 
@@ -27,26 +28,28 @@ export function addBgCredits(
 	view.add(
 		<>
 			<Background ref={bg} view={view} fill={AoCTheme.background} />
-			<Layout
-				x={x}
-				textAlign="center"
-				width={viewW}
-				height={viewH}
-				layout
-				direction="column"
-				padding={byOrientation(30, 100)}
-			>
-				<Txt
-					text={`Advent of Code ${year}`}
-					fill={AoCTheme.gray}
-					fontSize={fontSize}
-				/>
-				<Txt
-					text={`Day ${day} Solution (Part ${part})`}
-					fill={AoCTheme.yellow}
-					fontSize={fontSize}
-				/>
-			</Layout>
+			{!hideTitle ? (
+				<Layout
+					x={x}
+					textAlign="center"
+					width={viewW}
+					height={viewH}
+					layout
+					direction="column"
+					padding={byOrientation(30, 100)}
+				>
+					<Txt
+						text={`Advent of Code ${year}`}
+						fill={AoCTheme.gray}
+						fontSize={fontSize}
+					/>
+					<Txt
+						text={`Day ${day} Solution (Part ${part})`}
+						fill={AoCTheme.yellow}
+						fontSize={fontSize}
+					/>
+				</Layout>
+			) : null}
 			<Credits.AoC
 				title={`Sketch ${sketchId.toString().padStart(3, '0')}`}
 				author="Bret Hudson"

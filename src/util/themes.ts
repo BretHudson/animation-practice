@@ -12,4 +12,7 @@ export const AoCTheme = {
 	red: '#ff0000',
 	codeBackground: '#10101a',
 	codeBorder: '#333340',
+
+	gold: '#ffff66',
+	silver: '#9999cc',
 };
