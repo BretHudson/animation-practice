@@ -16,3 +16,11 @@ export const AoCTheme = {
 	gold: '#ffff66',
 	silver: '#9999cc',
 };
+
+export const WGTheme = {
+	yellow: '#fddd00',
+	blue: '#a09ffc',
+	darkBlue: '#2e2b4c',
+	bubbleBg: '#f6f3ff',
+	bubbleFg: '#333240',
+};
