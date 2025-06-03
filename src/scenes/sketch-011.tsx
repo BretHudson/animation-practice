@@ -7,7 +7,7 @@ import {
 	waitFor,
 } from '@motion-canvas/core';
 import { windingNumberComposition } from '~/compositions/011/WindingNumber';
-import { getViewportData } from '~/util';
+import { getSketchId, getViewportData } from '~/util';
 import { WGTheme } from '~/util/themes';
 
 export default makeScene2D(function* (view) {
@@ -102,7 +102,9 @@ export default makeScene2D(function* (view) {
 				// shadowBlur={4}
 			>
 				<Txt
-					text={`Sketch #011`.toUpperCase()}
+					text={`Sketch #${getSketchId(import.meta.url)
+						.toString()
+						.padStart(3, '0')}`.toUpperCase()}
 					fill={WGTheme.bubbleBg}
 					fontWeight={250}
 				/>

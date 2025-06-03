@@ -4,10 +4,21 @@ I'm attending Recurse Center over summer 2025. This is a repository of the daily
 
 ## Sketches
 
+### Week 3
+
 <details open>
+  <summary>Sketch 012</summary>
+  <video controls loop src="https://github.com/user-attachments/assets/c568f8fd-f8d8-456b-8dcc-7a8c829d1096"></video>
+</details>
+
+<details>
   <summary>Sketch 011</summary>
   <video controls loop src="https://github.com/user-attachments/assets/81f0b1b0-f11d-497d-9cf0-1543cce84a56"></video>
 </details>
+
+---
+
+### Week 2
 
 <details>
   <summary>Sketch 010</summary>
@@ -33,6 +44,10 @@ I'm attending Recurse Center over summer 2025. This is a repository of the daily
   <summary>Sketch 006</summary>
   <video controls loop src="https://github.com/user-attachments/assets/4df152a9-996b-4b2a-988d-464f4eb10642"></video>
 </details>
+
+---
+
+### Week 1
 
 <details>
   <summary>Sketch 005</summary>
