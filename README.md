@@ -7,6 +7,11 @@ I'm attending Recurse Center over summer 2025. This is a repository of the daily
 ### Week 3
 
 <details open>
+  <summary>Sketch 013</summary>
+  <video controls loop src="https://github.com/user-attachments/assets/15224ed0-dbad-44ea-a863-f031a9095035"></video>
+</details>
+
+<details>
   <summary>Sketch 012</summary>
   <video controls loop src="https://github.com/user-attachments/assets/c568f8fd-f8d8-456b-8dcc-7a8c829d1096"></video>
 </details>

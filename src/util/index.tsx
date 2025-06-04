@@ -6,6 +6,7 @@ import {
 	createSignal,
 	PossibleColor,
 	ThreadGenerator,
+	useScene,
 	Vector2,
 	waitFor,
 } from '@motion-canvas/core';
@@ -44,7 +45,16 @@ export const positionItemInRow = (
 };
 
 export const getViewportData = (view: View2D) => {
-	const [viewW, viewH] = [view.width(), view.height()];
+	return _getData(view.size());
+};
+
+export const useDimensions = () => {
+	const scene = useScene();
+	return _getData(scene.getSize());
+};
+
+const _getData = (size: Vector2) => {
+	const [viewW, viewH] = [size.width, size.height];
 	const landscape = viewW >= viewH;
 	const axisX = 'x' as const;
 	const axisY = 'y' as const;
