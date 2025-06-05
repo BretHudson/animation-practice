@@ -1,6 +1,8 @@
 # Animation Sketches
 
-I'm attending Recurse Center over summer 2025. This is a repository of the daily sketches I'll be making with [Motion Canvas](https://github.com/motion-canvas/motion-canvas).
+I'm in residency at [the Recurse Center](recurse.com) for the S1'25 (Summer 1, 2025) batch. One of my goals during my time there is to become proficient at creating animations with [Motion Canvas](https://github.com/motion-canvas/motion-canvas) for my upcoming educational blog posts and videos.
+
+Over the 12 weeks, I will be making daily sketches Monday through Friday, which can be seen below.
 
 ## Sketches
 
