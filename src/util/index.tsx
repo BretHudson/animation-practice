@@ -4,8 +4,12 @@ import {
 	chain,
 	createRef,
 	createSignal,
+	easeInBounce,
+	map,
 	PossibleColor,
 	ThreadGenerator,
+	TimingFunction,
+	tween,
 	useScene,
 	Vector2,
 	waitFor,
@@ -92,6 +96,29 @@ export function* allMap<T>(
 	yield* all(...arr.map(callback));
 }
 
+export function tweenLoop(
+	seconds: number,
+	iterations: number,
+	onProgress: (value: number, loopIndex: number, time: number) => void,
+	timingFunction?: TimingFunction,
+	onEnd?: (value: number, iterations: number, time: number) => void,
+): ThreadGenerator {
+	return tween(
+		seconds,
+		(value, time) => {
+			const _value = timingFunction?.(value) ?? value;
+			const t = _value * iterations;
+			const v = t % 1;
+			const loopIndex = Math.floor(t / iterations);
+			return onProgress(v, loopIndex, time);
+		},
+		(value, time) => {
+			const v = value * iterations;
+			return onEnd?.(v, iterations, time);
+		},
+	);
+}
+
 export function* chainWithWait(
 	waitSeconds: number,
 	...items: ThreadGenerator[]
@@ -135,4 +162,21 @@ export const initSpeed = (view: View2D, bg: Background, base = 1) => {
 		waitFor: _waitFor,
 		ref,
 	};
+};
+
+// TODO(bret): I need to rename this
+export const easeFullCosineRotation: TimingFunction = (
+	value,
+	from = 0,
+	to = 1,
+) => {
+	return map(from, to, Math.cos(value * 2 * Math.PI) * 0.5 + 0.5);
+};
+
+export const easeFullSineRotation: TimingFunction = (
+	value,
+	from = 0,
+	to = 1,
+) => {
+	return map(from, to, Math.sin(value * 2 * Math.PI) * 0.5 + 0.5);
 };

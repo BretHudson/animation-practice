@@ -26,6 +26,7 @@ import {
 	tween,
 	waitFor,
 } from '@motion-canvas/core';
+import { AnimLayout } from '~/components/week/week-003/AnimLayout';
 import { Week3Credits } from '~/components/week/week-003/Credits';
 import { Week3Title } from '~/components/week/week-003/Title';
 import {
@@ -59,97 +60,13 @@ class Animatable {
 	}
 }
 
-interface Effect {
-	func: Function;
-	value: any;
-	dur?: number;
-}
-
-class Effects {
-	node: AnimLayout;
-	effects: Effect[];
-	constructor(node: AnimLayout) {
-		this.node = node;
-		this.effects = [];
-	}
-
-	fadeIn(dur?: number) {
-		this.effects.push({
-			func: this.node.opacity,
-			value: 1,
-			dur,
-		});
-		return this;
-	}
-
-	fadeOut(dur?: number) {
-		this.effects.push({
-			func: this.node.opacity,
-			value: 0,
-			dur,
-		});
-		return this;
-	}
-
-	slideUp(dur?: number) {
-		this.node.y(30);
-		this.effects.push({
-			func: this.node.y,
-			value: 0,
-			dur,
-		});
-		return this;
-	}
-
-	slideDown(dur?: number) {
-		this.node.y(0);
-		this.effects.push({
-			func: this.node.y,
-			value: 30,
-			dur,
-		});
-		return this;
-	}
-
-	*all(baseDur = 0.3) {
-		yield* all(
-			...this.effects.map(({ func, value, dur = baseDur }) => {
-				return func(value, dur);
-			}),
-		);
-	}
-}
-
-class AnimLayout extends Layout {
-	@initial(0.3)
-	@signal()
-	public declare readonly dur: SimpleSignal<number, this>;
-
-	@initial(30)
-	@signal()
-	public declare readonly yOffset: SimpleSignal<number, this>;
-
-	fadeIn(dur?: number) {
-		return new Effects(this).fadeIn(dur);
-	}
-	slideUp(dur?: number) {
-		return new Effects(this).slideUp(dur);
-	}
-	fadeOut(dur?: number) {
-		return new Effects(this).fadeOut(dur);
-	}
-	slideDown(dur?: number) {
-		return new Effects(this).slideDown(dur);
-	}
-}
-
 export default makeScene2D(function* (view) {
 	const { byOrientation } = getViewportData(view);
 
 	view.fill(WGTheme.darkBlue);
 	view.fontFamily('Outfit');
 
-	const rectLayouts: AnimLayout[] = [];
+	const rectLayouts: AnimLayout<Rect>[] = [];
 
 	const scale = byOrientation(1, 0.75);
 	const size = Math.floor(150 * scale);
