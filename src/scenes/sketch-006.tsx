@@ -8,7 +8,12 @@ import {
 	LayoutProps,
 	initial,
 } from '@motion-canvas/2d';
-import { allMap, getViewportData, positionItemInRow } from '~/util';
+import {
+	allMap,
+	getSketchId,
+	getViewportData,
+	positionItemInRow,
+} from '~/util';
 import {
 	all,
 	makeRef,
@@ -90,7 +95,14 @@ export class ValueDisplay extends Layout {
 export default makeScene2D(function* (view) {
 	const { landscape } = getViewportData(view);
 
-	addBgCredits(view, 2017, 1, 1);
+	view.fontFamily(AoCTheme.fontFamily);
+
+	addBgCredits(view, {
+		sketchId: getSketchId(import.meta.url),
+		year: 2017,
+		day: 1,
+		part: 1,
+	});
 
 	const yGap = 120;
 

@@ -14,20 +14,17 @@ import {
 	loop,
 	makeRef,
 	map,
-	sin,
 	ThreadGenerator,
 	tween,
 	useRandom,
 	Vector2,
 } from '@motion-canvas/core';
-import { TxtLetters } from '../components/TxtLetters';
-import { TxtLeaf } from '@motion-canvas/2d/lib/components/TxtLeaf';
 
 const textProps = {
 	fill: 'white',
 	fontFamily: 'Rubik Puddles',
 	fontSize: 140,
-	// lineHeight: 200,
+	lineHeight: 200,
 	styles: {
 		'font-variation-settings': '"EDPT" 200',
 		fontVariationSettings: '"EDPT" 200',
@@ -70,24 +67,45 @@ function tweenArray<T extends Node>(
 	return all(...arr.map(callback));
 }
 
-function tToRadians(v: number): number {
+function tToRadians(v: number) {
 	return v * Math.PI * 2;
 }
 
-function* animateLetters(letters: Txt[]): ThreadGenerator {
-	const count = letters.length;
+export default makeScene2D(function* (view) {
+	const str = 'Recurse Day 1';
+	const letters: Txt[] = [];
+
+	const random = useRandom(20);
+
+	const gradient = new Gradient({
+		from: new Vector2(-540, -300),
+		to: new Vector2(440, 300),
+		stops: [
+			{ offset: 0, color: '#ccddff' },
+			{ offset: 1, color: '#000011' },
+		],
+	});
+	view.add(<Rect width={1280} height={720} fill={gradient} opacity={0.17} />);
+	view.add(createLetters(str, letters));
+	positionLetters(letters);
+
+	letters.forEach((letter) => {
+		letter.rotation(random.nextFloat(-30, 30));
+	});
+
 	const duration = 1.7;
 	const variance = 3.3;
 	const amplitude = 12;
+	const count = str.length;
 	const repeat = 2;
-	const [from, to] = ['#ffaa88', '#ffffff'].map((c) => new Color(c));
-
+	const from = new Color('#ffaa88');
+	const to = new Color('#ffffff');
 	yield* tweenArray(letters, (c, i) => {
 		const o = (i / count) * 2 * variance;
 		const posTween = loop(repeat, () =>
 			tween(duration, (value) => {
-				const t = o + tToRadians(value);
-				c.position.y(sin(t, -amplitude, amplitude));
+				const t = Math.sin(o + tToRadians(value));
+				c.position.y(map(0, amplitude, t));
 			}),
 		);
 		const colorTween = tween(duration * repeat, (value) => {
@@ -96,42 +114,4 @@ function* animateLetters(letters: Txt[]): ThreadGenerator {
 		});
 		return all(posTween, colorTween);
 	});
-}
-
-const gradient = new Gradient({
-	from: new Vector2(-540, -300),
-	to: new Vector2(440, 300),
-	stops: [
-		{ offset: 0, color: '#ccddff' },
-		{ offset: 1, color: '#000011' },
-	],
-});
-
-export default makeScene2D(function* (view) {
-	const str = 'Recurse Day 1';
-	const letters: Txt[] = [];
-
-	const random = useRandom(20);
-
-	view.add(<Rect width={1280} height={720} fill={gradient} opacity={0.17} />);
-	view.add(<Layout>{createLetters(str, letters)}</Layout>);
-	positionLetters(letters);
-
-	let lettersComponent = createRef<TxtLetters>();
-	view.add(
-		<TxtLetters ref={lettersComponent} text={str} y={160} {...textProps} />,
-	);
-
-	letters.forEach((letter, i) => {
-		const angle = random.nextFloat(-30, 30);
-		letter.rotation(angle);
-		lettersComponent().children()[i].rotation(angle);
-	});
-
-	lettersComponent().children()[5].position.x(-260);
-
-	yield* all(
-		animateLetters(letters),
-		animateLetters(lettersComponent().childrenAs<Txt>()),
-	);
 });

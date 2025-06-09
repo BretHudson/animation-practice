@@ -6,7 +6,12 @@ import {
 	Line,
 	Ray,
 } from '@motion-canvas/2d';
-import { allMap, getViewportData, positionItemInRow } from '~/util';
+import {
+	allMap,
+	getSketchId,
+	getViewportData,
+	positionItemInRow,
+} from '~/util';
 import {
 	all,
 	makeRef,
@@ -52,7 +57,14 @@ export interface ValueDisplayProps extends LayoutProps {
 export default makeScene2D(function* (view) {
 	const { landscape, byOrientation } = getViewportData(view);
 
-	const bg = addBgCredits(view, 2017, 1, 2);
+	view.fontFamily(AoCTheme.fontFamily);
+
+	const bg = addBgCredits(view, {
+		sketchId: getSketchId(import.meta.url),
+		year: 2017,
+		day: 1,
+		part: 2,
+	});
 
 	const base = 1.5;
 	const speed = createSignal(base);
