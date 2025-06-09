@@ -6,7 +6,7 @@ import ffmpeg from '@motion-canvas/ffmpeg';
 export default defineConfig({
 	plugins: [
 		motionCanvas({
-			project: ['./src/projects/sketches/*.ts'],
+			project: ['./src/projects/sketches/**/*.ts'],
 		}),
 		ffmpeg(),
 	],
