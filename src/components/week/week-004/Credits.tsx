@@ -27,20 +27,22 @@ export class Week4Credits extends Layout {
 
 		let sketchId = getSketchId(name);
 
+		const fill = WGTheme.bubbleBg;
 		this.add(
 			<Rect
 				layout
 				padding={[28, 50]}
 				gap={24}
 				bottom={[0, view.height() * 0.5 - byOrientation(60, 240)]}
+				opacity={0.7}
 			>
 				<Txt
 					text={`Sketch #${sketchId.toString().padStart(3, '0')}`}
-					fill={WGTheme.bubbleBg}
+					fill={fill}
 					fontWeight={250}
 				/>
-				<Txt text={`•`} fill={WGTheme.bubbleBg} fontWeight={350} />
-				<Txt text={`Bret Hudson`} fill={WGTheme.bubbleBg} fontWeight={250} />
+				<Txt text={`•`} fill={fill} fontWeight={350} />
+				<Txt text={`Bret Hudson`} fill={fill} fontWeight={250} />
 			</Rect>,
 		);
 	}

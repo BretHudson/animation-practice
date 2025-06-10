@@ -26,7 +26,7 @@ export class Week4Title extends Layout {
 		const { byOrientation } = getViewportData(view);
 
 		this.direction('column');
-		this.gap(0);
+		this.gap(6);
 		// this.offset([0, 0]);
 		this.width(view.width);
 		// this.height(view.height);
@@ -60,13 +60,14 @@ export class Week4Title extends Layout {
 					text={title}
 					fill={'#eef'}
 					fontWeight={700}
+					letterSpacing={-0.8}
 					{...computePosAndSize(72)}
 				/>
 				<Txt
 					text={subtitle}
 					fill={'#eef'}
 					fontWeight={250}
-					{...computePosAndSize(byOrientation(60, 50))}
+					{...computePosAndSize(byOrientation(50, 50))}
 				/>
 				{/* <Layout
 					{...computePosAndSize(byOrientation(60, 50))}

@@ -4,7 +4,7 @@ export function useViewport() {
 	const scene2d = useScene2D();
 	const view = scene2d.getView();
 
-	const [viewW, viewH] = [view.width, view.height];
+	const [viewW, viewH] = [view.width(), view.height()];
 	const landscape = viewW >= viewH;
 	const axisX = 'x' as const;
 	const axisY = 'y' as const;

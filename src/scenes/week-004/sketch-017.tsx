@@ -11,7 +11,6 @@ import {
 } from '@motion-canvas/2d';
 import {
 	all,
-	createEffect,
 	createRef,
 	createSignal,
 	DEFAULT,
@@ -23,7 +22,6 @@ import {
 	ReferenceReceiver,
 	sequence,
 	SimpleSignal,
-	spawn,
 	Vector2,
 	waitFor,
 } from '@motion-canvas/core';
@@ -94,7 +92,6 @@ class ArraySlot extends Rect {
 				fill="lightgray"
 				scale={scale}
 				fontSize={fontSize}
-				// lineHeight={this.height}
 				opacity={0.5}
 			/>,
 		);
@@ -116,13 +113,6 @@ class ArraySlot extends Rect {
 		const { str: _str, targetOpacity } = this._text(str);
 		this.txt().text(_str);
 		this.txt().opacity(targetOpacity);
-	}
-
-	*highlight() {
-		//
-	}
-	*dehighlight() {
-		//
 	}
 
 	*updateText(str: string) {
@@ -151,7 +141,6 @@ export default makeScene2D(function* (view) {
 	const { byOrientation } = useViewport();
 
 	view.fontFamily('Outfit');
-	// view.fontFamily('Chewy');
 
 	view.add(<SafeArea />);
 
@@ -167,16 +156,9 @@ export default makeScene2D(function* (view) {
 		</>,
 	);
 
-	const itemSize = byOrientation(140, 180);
+	const itemSize = byOrientation(140, 140);
 	const arrLen = 6;
-	const { code, rect } = createCodeBlock(byOrientation(1200, itemSize * 5));
-
-	// yield* code()
-	// 	.code(`const arr = new Array(${arrLen});`, 0.3)
-	// 	// .wait(0.5)
-	// 	.back(0.5)
-	// 	.wait(0.5);
-	// yield* code().code('const arr = [1, 2, 3];\nconsole.log("frick")', 0.3);
+	const { code, rect } = createCodeBlock(byOrientation(1200, itemSize * 7));
 
 	const count = createSignal(arrLen);
 	const container = createRef<Layout>();
@@ -213,7 +195,7 @@ export default makeScene2D(function* (view) {
 	const vOffset = new Vector2(0, 50);
 	const pointAt = createSignal(1);
 	const getPosition = createSignal(() => {
-		const xx = 0; //slots[pointAt()].position().x;
+		const xx = 0;
 		const yy = container().top().y + itemSize * 0.5;
 		return new Vector2(xx, yy);
 	});
@@ -281,37 +263,11 @@ export default makeScene2D(function* (view) {
 		),
 	);
 
-	createEffect(() => {
-		const targetCount = Math.round(count());
-		let i = slots.length;
-		// add any missing circles
-		for (; i < targetCount; i++) {
-			const parent = createRef<ArraySlot>();
-			const slot = (
-				<ArraySlot
-					ref={parent}
-					stroke={'white'}
-					lineWidth={3}
-					itemSize={itemSize}
-				/>
-			) as ArraySlot;
-			slots.push(slot);
-			container().add(slot);
-			spawn(slot.size(0).size(itemSize, 0.5));
-		}
-		// remove any extra circles
-		for (; i > targetCount; i--) {
-			const circle = slots.shift()!;
-			spawn(circle.size(0, 0.5).do(() => circle.remove()));
-		}
-	});
-
 	// push example
-
 	const createCode = (str: string) => str.replaceAll(/\t/g, ' '.repeat(4));
 
 	const pushCode = createCode(`\
-const arr = ['a', 'b', 'c', null, null];
+const arr = ['a', 'b', 'c', null, null, null];
 let arrLength = 3;
 ${push.toString()}`);
 
@@ -323,9 +279,6 @@ ${insert.toString()}`);
 	slots[0].setText('a');
 	slots[1].setText('b');
 	slots[2].setText('c');
-
-	// yield* count(arrLen, 0.5, easeOutQuad);
-	// yield* waitFor(1);
 
 	function* pushToArr(index: number, value: number | string) {
 		const v = typeof value === 'string' ? `'${value}'` : value;
@@ -348,6 +301,7 @@ ${insert.toString()}`);
 		slots[4].updateText(emptyStr),
 	);
 
+	// insert example
 	yield* waitFor(1);
 
 	const _arrLength = createSignal(
@@ -394,6 +348,9 @@ ${insert.toString()}`);
 
 	yield* all(
 		code().code(pushCode, 0.5),
+		slots[0].updateText('a'),
+		slots[1].updateText('b'),
+		slots[2].updateText('c'),
 		slots[3].updateText(emptyStr),
 		slots[4].updateText(emptyStr),
 	);
