@@ -6,12 +6,15 @@ import {
 	Txt,
 	View2D,
 } from '@motion-canvas/2d';
-import { getViewportData } from '~/util';
+import { useScene } from '@motion-canvas/core';
+import { useViewport } from '~/hooks/useViewport';
+import { getSketchId, getViewportData } from '~/util';
 import { WGTheme } from '~/util/themes';
 
 export interface CreditsProps extends LayoutProps {
 	view: View2D;
-	sketchId: number;
+	/** @deprecated - Credits is able to retrieve this itself now */
+	sketchId?: number;
 }
 
 @nodeName('Week4Credits')
@@ -19,9 +22,11 @@ export class Week4Credits extends Layout {
 	public constructor(props: CreditsProps) {
 		super(props);
 
-		const { view, sketchId } = props;
+		const { name } = useScene();
+		const { view, byOrientation } = useViewport();
 
-		const { byOrientation } = getViewportData(view);
+		let sketchId = getSketchId(name);
+
 		this.add(
 			<Rect
 				layout

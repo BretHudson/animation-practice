@@ -4,18 +4,19 @@ import {
 	chain,
 	createRef,
 	createSignal,
-	easeInBounce,
 	map,
 	PossibleColor,
 	ThreadGenerator,
 	TimingFunction,
 	tween,
-	useScene,
 	Vector2,
 	waitFor,
 } from '@motion-canvas/core';
 import { Background } from '~/components/Background';
 import { Credits } from '~/components/Credits';
+import { useViewport } from '~/hooks/useViewport';
+
+export { getSketchId } from '../hooks/useSketchId';
 
 export function createGradient(
 	w: number,
@@ -49,35 +50,11 @@ export const positionItemInRow = (
 };
 
 export const getViewportData = (view: View2D) => {
-	return _getData(view.size());
+	return useViewport();
 };
 
 export const useDimensions = () => {
-	const scene = useScene();
-	return _getData(scene.getSize());
-};
-
-const _getData = (size: Vector2) => {
-	const [viewW, viewH] = [size.width, size.height];
-	const landscape = viewW >= viewH;
-	const axisX = 'x' as const;
-	const axisY = 'y' as const;
-	const axes = landscape ? [axisX, axisY] : [axisY, axisX];
-	const [primaryAxis, crossAxis] = axes;
-	const byOrientation = <T,>(primary: T, cross: T): T => {
-		return landscape ? primary : cross;
-	};
-
-	return {
-		landscape,
-		portrait: !landscape,
-		viewW,
-		viewH,
-		axes,
-		primaryAxis,
-		crossAxis,
-		byOrientation,
-	} as const;
+	return useViewport();
 };
 
 export function* repeat(
@@ -129,10 +106,6 @@ export function* chainWithWait(
 			return chain(item, waitFor(waitSeconds));
 		}),
 	);
-}
-
-export function getSketchId(importMetaUrl: string) {
-	return +/sketch-(\d+)/.exec(importMetaUrl)[1];
 }
 
 export const initSpeed = (view: View2D, bg: Background, base = 1) => {
