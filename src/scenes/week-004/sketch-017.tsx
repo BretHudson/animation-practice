@@ -1,127 +1,25 @@
-import {
-	Code,
-	Layout,
-	lines,
-	makeScene2D,
-	nodeName,
-	Ray,
-	Rect,
-	RectProps,
-	Txt,
-} from '@motion-canvas/2d';
+import { Layout, lines, makeScene2D, Ray, Txt } from '@motion-canvas/2d';
 import {
 	all,
 	createRef,
 	createSignal,
 	DEFAULT,
-	easeInQuad,
 	makeRef,
 	map,
 	range,
-	Reference,
 	ReferenceReceiver,
 	sequence,
 	SimpleSignal,
 	Vector2,
 	waitFor,
 } from '@motion-canvas/core';
+import { createCodeBlock } from '~/components/CodeBlock';
 import { SafeArea } from '~/components/SafeArea';
+import { ArraySlot, emptyStr } from '~/components/week/week-004/ArraySlot';
 import { Week4Credits } from '~/components/week/week-004/Credits';
 import { Week4Title } from '~/components/week/week-004/Title';
 import { useViewport } from '~/hooks/useViewport';
 import { allMap } from '~/util';
-
-const createCodeBlock = (width: number) => {
-	const code = createRef<Code>();
-	const rect = (
-		<Rect
-			fill="#1a1a1a"
-			layout
-			padding={24}
-			radius={8}
-			stroke="#889"
-			width={width}
-			lineWidth={2}
-			offset={[0, -1]}
-		>
-			<Code ref={code} fontSize={36} code=" " />
-		</Rect>
-	);
-	return { rect, code };
-};
-
-interface ArraySlotProps extends RectProps {
-	itemSize: number;
-	startSmall?: boolean;
-}
-
-const emptyStr = '[empty]';
-@nodeName('ArraySlot')
-class ArraySlot extends Rect {
-	txt: Reference<Txt>;
-
-	constructor(props: ArraySlotProps) {
-		super(props);
-
-		const { itemSize } = props;
-
-		if (!props.startSmall) this.size(itemSize);
-
-		this.justifyContent('center');
-		this.alignItems('center');
-
-		const t = createSignal(() => this.height() / itemSize);
-
-		const opacity = props.startSmall ? createSignal(() => map(0, 1, t())) : 1;
-		this.opacity(opacity);
-
-		const scale = props.startSmall
-			? createSignal(() => map(0.25, 1, easeInQuad(t())))
-			: 1;
-
-		const txt = createRef<Txt>();
-		const fontSize = createSignal(() => {
-			return txt().text() === emptyStr ? 32 : 48;
-		});
-		this.add(
-			<Txt
-				ref={txt}
-				fontFamily={'monospace'}
-				textAlign={'center'}
-				text={emptyStr}
-				fill="lightgray"
-				scale={scale}
-				fontSize={fontSize}
-				opacity={0.5}
-			/>,
-		);
-		this.txt = txt;
-	}
-
-	_text(str: string) {
-		if (Number.isNaN(parseInt(str)) && str !== emptyStr) {
-			str = `'${str}'`.replaceAll("''", "'");
-		}
-		const targetOpacity = str !== emptyStr ? 1 : 0.5;
-		return {
-			str,
-			targetOpacity,
-		};
-	}
-
-	setText(str: string) {
-		const { str: _str, targetOpacity } = this._text(str);
-		this.txt().text(_str);
-		this.txt().opacity(targetOpacity);
-	}
-
-	*updateText(str: string) {
-		const { str: _str, targetOpacity } = this._text(str);
-		yield* all(this.txt().opacity(0, 0.3), this.fill('#ffffff66', 0.4));
-		this.txt().text(_str);
-		yield* all(this.txt().opacity(targetOpacity, 0.3), this.fill(DEFAULT, 0.4));
-	}
-}
 
 let arrLength = 3;
 function push<T>(arr: T[], item: T) {
@@ -158,7 +56,10 @@ export default makeScene2D(function* (view) {
 
 	const itemSize = byOrientation(140, 140);
 	const arrLen = 6;
-	const { code, rect } = createCodeBlock(byOrientation(1200, itemSize * 7));
+	const { codeBlock, code } = createCodeBlock(
+		byOrientation(1200, itemSize * 7),
+		36,
+	);
 
 	const count = createSignal(arrLen);
 	const container = createRef<Layout>();
@@ -188,7 +89,7 @@ export default makeScene2D(function* (view) {
 					/>
 				))}
 			</Layout>
-			{rect}
+			{codeBlock}
 		</Layout>,
 	);
 

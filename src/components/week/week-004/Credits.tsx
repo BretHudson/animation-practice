@@ -12,7 +12,8 @@ import { getSketchId, getViewportData } from '~/util';
 import { WGTheme } from '~/util/themes';
 
 export interface CreditsProps extends LayoutProps {
-	view: View2D;
+	/** @deprecated - Credits is able to retrieve this itself now */
+	view?: View2D;
 	/** @deprecated - Credits is able to retrieve this itself now */
 	sketchId?: number;
 }

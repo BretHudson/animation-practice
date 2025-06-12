@@ -2,15 +2,15 @@ import {
 	Layout,
 	LayoutProps,
 	nodeName,
-	Rect,
 	Txt,
+	useScene2D,
 	View2D,
 } from '@motion-canvas/2d';
 import { getViewportData } from '~/util';
-import { WGTheme } from '~/util/themes';
 
 export interface TitleProps extends LayoutProps {
-	view: View2D;
+	/** @deprecated - title gets this dynamically */
+	view?: View2D;
 	title: string;
 	subtitle?: string;
 }
@@ -20,9 +20,10 @@ export class Week4Title extends Layout {
 	public constructor(props: TitleProps) {
 		super(props);
 
-		// this.fontFamily('Chewy');
+		const scene2d = useScene2D();
+		const view = scene2d.getView();
 
-		const { view, title, subtitle } = props;
+		const { title, subtitle } = props;
 		const { byOrientation } = getViewportData(view);
 
 		this.direction('column');
