@@ -78,12 +78,7 @@ export default makeScene2D(function* (view) {
 		return slot;
 	};
 
-	const createSlotToRemove = (slot: ArraySlot) => {
-		const clone = slot.clone();
-		clone.setText(slot.txt().text());
-		clone.txt().scale(clone.scale);
-		return clone;
-	};
+	const createSlotToRemove = (slot: ArraySlot) => slot.clone();
 
 	const arrCount = createSignal(() => 0);
 
@@ -171,8 +166,6 @@ export default makeScene2D(function* (view) {
 
 		const toMove = toClone.map((s) => s.clone());
 		view.add(toMove);
-
-		toMove.forEach((s, i) => s.setText(toClone[i].txt().text()));
 
 		const lastValue = slots[index + toClone.length - 1].txt().text();
 		for (let i = index + toClone.length - 1; i >= index; --i) {
@@ -277,8 +270,6 @@ export default makeScene2D(function* (view) {
 		const toMove = toClone.map((s) => s.clone());
 		view.add(toMove);
 
-		toMove.forEach((s, i) => s.setText(toClone[i].txt().text()));
-
 		for (let i = index + 1; i <= index + toMove.length; ++i) {
 			slots[i].setText(slots[i + 1].txt().text());
 			slots[i].txt().opacity(0);
@@ -320,8 +311,6 @@ export default makeScene2D(function* (view) {
 		}
 
 		toMove.forEach((s) => s.remove());
-
-		// yield* emptySlot.txt().opacity(emptyOpacity, 0.3);
 
 		return slot;
 	}
@@ -375,15 +364,6 @@ export default makeScene2D(function* (view) {
 		removedSlot.scale(0.7, 0.5),
 	);
 	yield* waitFor(1);
-
-	// const slot4 = createSlotToAdd('4');
-	// view.add(slot4);
-	// yield* slot4.growIn().wait(1);
-	// yield* push(slot4);
-	// yield* arrCount(3, 0.3);
-	// yield* waitFor(1);
-
-	// yield* arrCount(maxArrLen, 0.5);
 
 	yield* count(0, 0.5, easeInQuad);
 

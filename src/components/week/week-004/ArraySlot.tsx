@@ -1,6 +1,7 @@
 import {
 	initial,
 	nodeName,
+	NodeState,
 	Rect,
 	RectProps,
 	signal,
@@ -77,6 +78,12 @@ export class ArraySlot extends Rect {
 			/>,
 		);
 		this.txt = txt;
+	}
+
+	override clone(customProps?: NodeState): this {
+		const clone = super.clone(customProps);
+		clone.setText(this.txt().text());
+		return clone;
 	}
 
 	*scaleTo(size: number, dur = 0.5, timingFunction?: TimingFunction) {
