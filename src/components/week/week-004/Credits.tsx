@@ -23,6 +23,8 @@ export class Week4Credits extends Layout {
 	public constructor(props: CreditsProps) {
 		super(props);
 
+		this.fontFamily('Outfit');
+
 		const { name } = useScene();
 		const { view, byOrientation } = useViewport();
 

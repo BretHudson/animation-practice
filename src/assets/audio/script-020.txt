@@ -1,0 +1,71 @@
+## SCRIPT
+
+Let's say that we have a
+fixed-length array of 5 items.
+
+## PUSH
+
+The simplest way to add an
+item to an array is using
+the push operation.
+
+This takes an item and adds
+it to the first empty
+slot in the array.
+
+Since we're keeping track
+of how many items are
+in the array,
+this operation is O(1).
+
+## Multi-push
+
+Before we get to
+our next operation,
+let's push some more items.
+
+## INSERT
+
+Oh no! We've forgotten to
+push one into the array.
+
+To resolve this,
+we can use the insert operation
+which requires us to pass
+an index along with the item,
+to instruct the operation
+where in the array
+we would like to place our item.
+
+This operation requires us to
+make space for our new item,
+so we have to move all the
+items over one space to the right.
+
+This operation is O(N),
+with N representing the number
+of items currently in the array.
+
+## POP
+
+Similar to push,
+we can use the pop operation
+to remove the last item
+of an array.
+
+This operation is O(1).
+
+## DELETE
+
+The final operation we're
+covering is to remove
+from a particular index.
+
+It's essentially the reverse
+of what we did for insert:
+we remove the item at the
+index we pass in,
+and then move each item
+to the left one-by-one.
+
+This operation is O(N).
