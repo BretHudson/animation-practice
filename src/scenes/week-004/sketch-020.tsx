@@ -37,8 +37,8 @@ export default makeScene2D(function* (view) {
 
 	view.fontFamily('Outfit');
 
-	const arrayY = -50;
-	const subtitlesY = 300;
+	const arrayY = byOrientation(-50, -50);
+	const subtitlesY = byOrientation(300, 400);
 
 	let start = 0;
 	subtitles.slice(0, timestamps.length).forEach((subtitle, i) => {
@@ -103,7 +103,8 @@ export default makeScene2D(function* (view) {
 			fontSize={64}
 			letterSpacing={3}
 			lineWidth={10}
-			// width={700}
+			width={byOrientation(undefined, 720)}
+			offsetY={byOrientation(0, -0)}
 			textAlign={'center'}
 			textWrap
 			y={subtitlesY}

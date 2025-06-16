@@ -1,7 +1,7 @@
 ## SCRIPT
 
 Let's say that we have a
-fixed-length array of 5 items.
+fixed-length array of five items.
 
 ## PUSH
 
