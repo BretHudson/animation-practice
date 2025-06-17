@@ -1,0 +1,36 @@
+import { SafeArea } from '~/components/SafeArea';
+import { Week5Credits } from '~/components/week/week-005/Credits';
+import { Week5Title } from '~/components/week/week-005/Title';
+import { useViewport } from '~/hooks/useViewport';
+
+import { TxtProps } from '@motion-canvas/2d';
+import { Background } from '~/components/Background';
+import { WGTheme } from '~/util/themes';
+
+export const useWeek5 = (hue: number, title: string, subtitle?: string) => {
+	const { view } = useViewport();
+	view.fontFamily('Outfit');
+
+	view.add(Background.Week5(hue));
+
+	view.add(<SafeArea />);
+
+	view.add(
+		<>
+			<Week5Title title={title} subtitle={subtitle} />
+			<Week5Credits />
+		</>,
+	);
+
+	const shared: TxtProps = {
+		fill: WGTheme.darkBlue,
+		stroke: WGTheme.bubbleBg,
+		fontSize: 96,
+		lineWidth: 10,
+		letterSpacing: 4,
+		fontFamily: 'Chewy',
+		strokeFirst: true,
+	};
+
+	return { shared };
+};

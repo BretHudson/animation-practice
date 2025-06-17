@@ -4,6 +4,7 @@ import {
 	LayoutProps,
 	Node,
 	nodeName,
+	NodeProps,
 	signal,
 	Txt,
 	TxtProps,
@@ -23,13 +24,13 @@ function getSpaceWidth(textProps: TxtProps) {
 	return textRef().size().x - noSpaceRef().size().x;
 }
 
-export interface WordProps extends LayoutProps {
+export interface WordProps extends NodeProps {
 	text: SignalValue<string>;
 	txtProps?: TxtProps;
 }
 
 @nodeName('Word')
-class Word extends Layout {
+export class Word extends Node {
 	@initial('')
 	@signal()
 	public declare readonly text: SimpleSignal<string, this>;
@@ -43,20 +44,22 @@ class Word extends Layout {
 
 		const letters = this.text().split('');
 		this.add(
-			letters.map((c, i) => (
-				<Letter ref={makeRef(this.letters, i)} text={c} txtProps={txtProps} />
-			)),
+			<Layout>
+				{letters.map((c, i) => (
+					<Letter ref={makeRef(this.letters, i)} text={c} txtProps={txtProps} />
+				))}
+			</Layout>,
 		);
 	}
 }
 
-export interface LetterProps extends LayoutProps {
+export interface LetterProps extends NodeProps {
 	text: SignalValue<string>;
 	txtProps?: TxtProps;
 }
 
 @nodeName('Letter')
-class Letter extends Node {
+export class Letter extends Node {
 	constructor(props: LetterProps) {
 		super(props);
 

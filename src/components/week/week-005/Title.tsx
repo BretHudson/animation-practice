@@ -26,6 +26,8 @@ export class Week5Title extends Layout {
 		const { title, subtitle } = props;
 		const { byOrientation } = getViewportData(view);
 
+		this.y(-650 * 0.5 - 110);
+
 		this.direction('column');
 		this.gap(6);
 		// this.offset([0, 0]);
