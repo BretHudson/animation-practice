@@ -16,12 +16,15 @@ export interface CreditsProps extends LayoutProps {
 	view?: View2D;
 	/** @deprecated - Credits is able to retrieve this itself now */
 	sketchId?: number;
+	stroke?: string;
 }
 
 @nodeName('Week5Credits')
 export class Week5Credits extends Layout {
 	public constructor(props: CreditsProps) {
 		super(props);
+
+		const { stroke } = props;
 
 		this.fontFamily('Outfit');
 
@@ -32,7 +35,7 @@ export class Week5Credits extends Layout {
 
 		const txtProps = {
 			fill: WGTheme.bubbleBg,
-			stroke: '#444',
+			stroke: stroke ?? '#444',
 			lineWidth: 8,
 			strokeFirst: true,
 		};

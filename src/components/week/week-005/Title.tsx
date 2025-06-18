@@ -13,6 +13,7 @@ export interface TitleProps extends LayoutProps {
 	view?: View2D;
 	title: string;
 	subtitle?: string;
+	stroke?: string;
 }
 
 @nodeName('Week5Title')
@@ -23,7 +24,7 @@ export class Week5Title extends Layout {
 		const scene2d = useScene2D();
 		const view = scene2d.getView();
 
-		const { title, subtitle } = props;
+		const { title, subtitle, stroke } = props;
 		const { byOrientation } = getViewportData(view);
 
 		this.y(-650 * 0.5 - 110);
@@ -52,7 +53,7 @@ export class Week5Title extends Layout {
 				textAlign: 'center',
 				fontSize,
 				lineHeight: fontSize,
-				stroke: '#444',
+				stroke: stroke ?? '#444',
 				lineWidth: 10,
 				strokeFirst: true,
 			} as const;

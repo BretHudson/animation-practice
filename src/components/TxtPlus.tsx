@@ -21,7 +21,28 @@ function getSpaceWidth(textProps: TxtProps) {
 	const noSpaceRef = createRef<Txt>();
 	<Txt ref={textRef} text="1 1" {...textProps} />;
 	<Txt ref={noSpaceRef} text="11" {...textProps} />;
-	return textRef().size().x - noSpaceRef().size().x;
+	const size = textRef().size().x - noSpaceRef().size().x;
+	return size * 1.3;
+}
+
+export interface LetterProps extends NodeProps {
+	text: SignalValue<string>;
+	txtProps?: TxtProps;
+}
+
+@nodeName('Letter')
+export class Letter extends Node {
+	constructor(props: LetterProps) {
+		super(props);
+
+		const { text, txtProps } = props;
+
+		let width: number | undefined = undefined;
+		if (text === ' ') {
+			width = getSpaceWidth({});
+		}
+		this.add(<Txt text={text} width={width} {...txtProps} />);
+	}
 }
 
 export interface WordProps extends NodeProps {
@@ -50,26 +71,6 @@ export class Word extends Node {
 				))}
 			</Layout>,
 		);
-	}
-}
-
-export interface LetterProps extends NodeProps {
-	text: SignalValue<string>;
-	txtProps?: TxtProps;
-}
-
-@nodeName('Letter')
-export class Letter extends Node {
-	constructor(props: LetterProps) {
-		super(props);
-
-		const { text, txtProps } = props;
-
-		let width: number | undefined = undefined;
-		if (text === ' ') {
-			width = getSpaceWidth({});
-		}
-		this.add(<Txt text={text} width={width} {...txtProps} />);
 	}
 }
 

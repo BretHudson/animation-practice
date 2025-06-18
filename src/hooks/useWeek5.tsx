@@ -7,7 +7,12 @@ import { TxtProps } from '@motion-canvas/2d';
 import { Background } from '~/components/Background';
 import { WGTheme } from '~/util/themes';
 
-export const useWeek5 = (hue: number, title: string, subtitle?: string) => {
+export const useWeek5 = (
+	hue: number,
+	title: string,
+	subtitle?: string,
+	stroke?: string,
+) => {
 	const { view } = useViewport();
 	view.fontFamily('Outfit');
 
@@ -17,8 +22,8 @@ export const useWeek5 = (hue: number, title: string, subtitle?: string) => {
 
 	view.add(
 		<>
-			<Week5Title title={title} subtitle={subtitle} />
-			<Week5Credits />
+			<Week5Title title={title} subtitle={subtitle} stroke={stroke} />
+			<Week5Credits stroke={stroke} />
 		</>,
 	);
 
