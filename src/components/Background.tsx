@@ -6,6 +6,15 @@ export interface BackgroundProps extends RectProps {
 	view?: View2D;
 }
 
+export type Week5Hue =
+	| number
+	| {
+			h?: number;
+			s?: number;
+			v?: number;
+			c?: number;
+	  };
+
 const getOffset = (cellSize: number, fillSize: number) => {
 	const total = Math.ceil(fillSize / cellSize) * cellSize;
 	return (total - fillSize) / 2;
@@ -22,12 +31,25 @@ export class Background extends Rect {
 		this.height(view.height());
 	}
 
-	public static Week5(hue: number) {
+	public static Week5(hue: Week5Hue) {
 		const bg = new Background({});
 
+		let h: number;
+		let s = 0.4025;
+		let v = 0.9451;
+		let c = 1;
+		if (typeof hue === 'number') {
+			h = hue;
+		} else {
+			if (hue.h !== undefined) h = hue.h;
+			if (hue.s !== undefined) s = hue.s;
+			if (hue.v !== undefined) v = hue.v;
+			if (hue.c !== undefined) c = hue.c;
+		}
+
 		const { view, viewW, viewH } = useViewport();
-		const hsv = [hue * 360, 0.4025, 0.9451] as const;
-		const hsv2 = [hue * 360, 0.336, 0.9686] as const;
+		const hsv = [h * 360, s, v] as const;
+		const hsv2 = [h * 360, s - 0.0665 * c, v + 0.0235 * c] as const;
 
 		// @ts-expect-error - this is valid
 		const color = new Color(...hsv, 'hsv');

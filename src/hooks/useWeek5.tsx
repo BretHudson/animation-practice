@@ -4,11 +4,11 @@ import { Week5Title } from '~/components/week/week-005/Title';
 import { useViewport } from '~/hooks/useViewport';
 
 import { TxtProps } from '@motion-canvas/2d';
-import { Background } from '~/components/Background';
+import { Background, type Week5Hue } from '~/components/Background';
 import { WGTheme } from '~/util/themes';
 
 export const useWeek5 = (
-	hue: number,
+	hue: Week5Hue,
 	title: string,
 	subtitle?: string,
 	stroke?: string,
