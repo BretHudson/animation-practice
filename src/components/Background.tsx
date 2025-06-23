@@ -74,6 +74,7 @@ export class Background extends Rect {
 						width={cellSize}
 						height={cellSize}
 						fill={color2}
+						zIndex={0}
 					/>,
 				);
 			}
