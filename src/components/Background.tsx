@@ -82,4 +82,10 @@ export class Background extends Rect {
 
 		return bg;
 	}
+
+	public static Week6() {
+		const bg = new Background({});
+
+		return bg;
+	}
 }
