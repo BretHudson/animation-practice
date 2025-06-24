@@ -1,7 +1,7 @@
 import { useScene } from '@motion-canvas/core';
 
 export function getSketchId(importMetaUrl: string) {
-	return +/sketch-(\d+)/.exec(importMetaUrl)[1];
+	return +/(\d+)/.exec(importMetaUrl)[1];
 }
 
 export function useSketchId(): number {

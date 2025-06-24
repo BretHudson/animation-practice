@@ -8,7 +8,7 @@ import {
 } from '@motion-canvas/2d';
 import { useScene } from '@motion-canvas/core';
 import { useViewport } from '~/hooks/useViewport';
-import { getSketchId, getViewportData } from '~/util';
+import { getSketchId } from '~/util';
 import { WGTheme } from '~/util/themes';
 
 export interface CreditsProps extends LayoutProps {
