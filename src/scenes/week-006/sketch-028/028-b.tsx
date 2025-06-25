@@ -12,9 +12,10 @@ import {
 	waitFor,
 } from '@motion-canvas/core';
 import { WGTheme } from '~/util/themes';
-import { initScene } from './shared-027';
+import { initScene } from './shared-028';
 
-export function* customTransition(
+// TODO(bret): Make this work for multiple directions
+export function* slantedSlideTransition(
 	direction: Direction = Direction.Top,
 	duration = 0.8,
 ): ThreadGenerator {
@@ -23,15 +24,31 @@ export function* customTransition(
 	const previousPosition = Vector2.createSignal();
 	const currentPosition = Vector2.createSignal(position);
 
-	const rectX = createSignal(size.width);
+	const diagonal = 45;
+	const rectX = createSignal(size.width + diagonal);
 
 	const endTransition = useTransition((ctx) => {
 		const ww = size.width + previousPosition.x();
 		ctx.fillStyle = WGTheme.darkBlue;
-		ctx.fillRect(rectX(), 0, ww, size.height);
+		const x1 = rectX();
+		const y1 = 0;
+		const x2 = x1 + ww;
+		const y2 = y1 + size.height;
+		ctx.beginPath();
+		ctx.moveTo(x1 + diagonal, y1);
+		ctx.lineTo(x2 + diagonal, y1);
+		ctx.lineTo(x2 - diagonal, y2);
+		ctx.lineTo(x1 - diagonal, y2);
+		ctx.closePath();
+		ctx.fill();
 
 		ctx.beginPath();
-		ctx.rect(rectX() + ww, 0, size.width, size.height);
+		// ctx.rect(rectX() + ww, 0, size.width, size.height);
+		ctx.moveTo(x2 + diagonal, y1);
+		ctx.lineTo(size.width, y1);
+		ctx.lineTo(size.width, y2);
+		ctx.lineTo(x2 - diagonal, y2);
+		ctx.closePath();
 		ctx.clip();
 	});
 
@@ -39,7 +56,7 @@ export function* customTransition(
 	yield* all(
 		previousPosition(position.scale(-1), duration),
 		currentPosition(Vector2.zero, duration),
-		rectX(0, duration * 0.5),
+		rectX(-diagonal, duration * 0.5),
 	);
 
 	// finish the transition
@@ -47,11 +64,10 @@ export function* customTransition(
 }
 
 export default makeScene2D(function* (view) {
-	const { shared } = initScene(3);
-	// @ts-expect-error - this is fine
-	view.fill(new Color(0.6064, 0.336, 0.9686, 'hsv'));
+	const { shared } = initScene(2);
+	view.fill('#7adb76');
 
-	yield* customTransition(Direction.Right);
+	yield* slantedSlideTransition(Direction.Right);
 
 	yield* waitFor(1);
 });
