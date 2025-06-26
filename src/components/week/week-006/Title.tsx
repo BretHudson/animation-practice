@@ -30,7 +30,7 @@ export class Week6Title extends Layout {
 		this.y(-650 * 0.5 - 110);
 
 		this.direction('column');
-		this.gap(6);
+		this.gap(20);
 		// this.offset([0, 0]);
 		this.width(view.width);
 		// this.height(view.height);
