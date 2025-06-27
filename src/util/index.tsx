@@ -1,14 +1,17 @@
-import { Gradient, View2D } from '@motion-canvas/2d';
+import { Gradient, makeScene2D, View2D } from '@motion-canvas/2d';
 import {
 	all,
 	chain,
 	createRef,
 	createSignal,
+	FullSceneDescription,
 	map,
 	PossibleColor,
 	ThreadGenerator,
+	ThreadGeneratorFactory,
 	TimingFunction,
 	tween,
+	ValueDispatcher,
 	Vector2,
 	waitFor,
 } from '@motion-canvas/core';
@@ -153,3 +156,36 @@ export const easeFullSineRotation: TimingFunction = (
 ) => {
 	return map(from, to, Math.sin(value * 2 * Math.PI) * 0.5 + 0.5);
 };
+
+// The below is from aarthificial on GitHub
+// link: https://github.com/motion-canvas/motion-canvas/issues/954#issuecomment-1939415237
+type CyclicConfig<T> = (params: T) => CyclicConfig<T>;
+
+export function parametrize<T>(scene: FullSceneDescription, params: T) {
+	const typeScene = scene as FullSceneDescription<CyclicConfig<T>>;
+	const newScene = {
+		...typeScene,
+		config: typeScene.config(params),
+		onReplaced: new ValueDispatcher(scene),
+	};
+
+	typeScene.onReplaced.subscribe((value) => {
+		newScene.onReplaced.current = {
+			...newScene,
+			config: value.config(params),
+		};
+	}, false);
+
+	return newScene;
+}
+
+export function makeParametrizedScene<T>(
+	factory: (view: View2D, params: T) => ThreadGenerator,
+) {
+	return makeScene2D(
+		((params: T) =>
+			function* (view: View2D) {
+				yield* factory(view, params);
+			}) as unknown as ThreadGeneratorFactory<View2D>,
+	);
+}

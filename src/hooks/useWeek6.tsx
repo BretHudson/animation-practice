@@ -13,7 +13,7 @@ export const useWeek6 = (title: string, subtitle?: string, stroke?: string) => {
 
 	view.add(Background.Week6());
 
-	view.add(<SafeArea />);
+	view.add(<SafeArea opacity={0} />);
 
 	view.add(
 		<>
