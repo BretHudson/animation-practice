@@ -1,5 +1,5 @@
 import { nodeName, Rect, RectProps, View2D } from '@motion-canvas/2d';
-import { Color } from '@motion-canvas/core';
+import { Color, createRef, Reference } from '@motion-canvas/core';
 import { useViewport } from '~/hooks/useViewport';
 
 export interface BackgroundProps extends RectProps {
@@ -87,5 +87,11 @@ export class Background extends Rect {
 		const bg = new Background({});
 
 		return bg;
+	}
+
+	public static Week7() {
+		const ref = createRef<Background>();
+		<Background ref={ref} />;
+		return ref;
 	}
 }
