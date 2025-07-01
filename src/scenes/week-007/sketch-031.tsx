@@ -1,69 +1,9 @@
-import {
-	Icon,
-	makeScene2D,
-	nodeName,
-	Node,
-	NodeProps,
-	signal,
-	LayoutProps,
-	Layout,
-	Txt,
-} from '@motion-canvas/2d';
-import {
-	all,
-	createSignal,
-	makeRef,
-	sequence,
-	SimpleSignal,
-	waitFor,
-} from '@motion-canvas/core';
+import { Layout, makeScene2D, Node } from '@motion-canvas/2d';
+import { all, makeRef, sequence, waitFor } from '@motion-canvas/core';
 
+import { File } from '~/components/week/week-007/File';
 import { useWeek7 } from '~/hooks/useWeek7';
-import { allMap, positionItemInRow } from '~/util';
-import { WGTheme } from '~/util/themes';
-
-const icons = {
-	JS: 'tabler:file-type-js',
-	JSX: 'tabler:file-type-jsx',
-	TS: 'tabler:file-type-ts',
-	TSX: 'tabler:file-type-tsx',
-	XML: 'tabler:file-type-xml',
-	OTHER: 'tabler:file',
-} as const;
-
-type IconKey = keyof typeof icons;
-
-interface FileProps extends LayoutProps {
-	fileName: string;
-}
-
-@nodeName('File')
-export class File extends Layout {
-	@signal()
-	public declare readonly fileName: SimpleSignal<IconKey, this>;
-
-	constructor(props: FileProps) {
-		super(props);
-
-		this.layout(true);
-		this.alignItems('center');
-		this.gap(8);
-
-		const icon = createSignal(() => {
-			const ext = this.fileName().split('.')[1].toUpperCase() as IconKey;
-			return icons[ext] ?? icons.OTHER;
-		});
-
-		this.add(<Icon icon={icon} stroke={WGTheme.bubbleBg} size={70} />);
-		this.add(
-			<Txt
-				text={this.fileName}
-				fontFamily={'Source Code Pro'}
-				fill={WGTheme.bubbleBg}
-			/>,
-		);
-	}
-}
+import { allMap } from '~/util';
 
 export default makeScene2D(function* (view) {
 	useWeek7();
