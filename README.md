@@ -9,6 +9,11 @@ Over the 12 weeks, I will be making daily sketches Monday through Friday, which 
 ### Week 7
 
 <details open>
+  <summary>Sketch 033</summary>
+  <video controls loop src="https://github.com/user-attachments/assets/81ccb120-7454-4770-b89d-acd6ba09af72"></video>
+</details>
+
+<details>
   <summary>Sketch 032</summary>
   <video controls loop src="https://github.com/user-attachments/assets/46ee5475-f1fe-4a5b-8105-5fdae7e1456c"></video>
 </details>

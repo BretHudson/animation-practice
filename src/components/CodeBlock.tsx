@@ -9,6 +9,7 @@ import {
 	initial,
 	LayoutMode,
 	nodeName,
+	PossibleCodeScope,
 	Rect,
 	RectProps,
 	signal,
@@ -18,7 +19,8 @@ import {
 import {
 	createRef,
 	createSignal,
-	Reference,
+	ReferenceReceiver,
+	SignalValue,
 	SimpleSignal,
 	Spacing,
 	SpacingSignal,
@@ -39,8 +41,9 @@ export function spacingSignal(prefix?: string): PropertyDecorator {
 }
 
 export interface CodeBlockProps extends RectProps {
-	codeRef?: Reference<Code>;
-	codeFontSize?: SimpleSignal<number>;
+	codeRef?: ReferenceReceiver<Code>;
+	codeFontSize?: SignalValue<number>;
+	code?: SignalValue<PossibleCodeScope>;
 }
 
 @nodeName('CodeBlock')
@@ -73,14 +76,24 @@ export class CodeBlock extends Rect {
 	@signal()
 	public declare readonly layout: SimpleSignal<LayoutMode, this>;
 
+	// @ts-ignore -- this is copy/pasted from Motion Canvas source
 	@defaultStyle('font-size', parseFloat)
 	@signal()
 	public declare readonly codeFontSize: SimpleSignal<number, this>;
 
+	@codeSignal()
+	public declare readonly code: CodeSignal<this>;
+
 	constructor(props: CodeBlockProps) {
 		super(props);
 
-		this.add(<Code ref={props.codeRef} fontSize={props.codeFontSize} />);
+		this.add(
+			<Code
+				ref={props.codeRef}
+				fontSize={props.codeFontSize}
+				code={this.code}
+			/>,
+		);
 	}
 }
 
