@@ -1,0 +1,30 @@
+{
+  "version": 0,
+  "timeEvents": [
+    {
+      "name": "burst1",
+      "targetTime": 0.1
+    },
+    {
+      "name": "burst2",
+      "targetTime": 3.0
+    },
+    {
+      "name": "burst3",
+      "targetTime": 3.2
+    },
+    {
+      "name": "burst4",
+      "targetTime": 7.0
+    },
+    {
+      "name": "burst5",
+      "targetTime": 7.6
+    },
+    {
+      "name": "burst6",
+      "targetTime": 8.3
+    }
+  ],
+  "seed": 3893332979
+}
