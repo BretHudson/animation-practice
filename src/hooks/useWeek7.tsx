@@ -5,7 +5,7 @@ import { useViewport } from '~/hooks/useViewport';
 import { Background } from '~/components/Background';
 import { createRef } from '@motion-canvas/core';
 
-export const useWeek7 = () => {
+export const useWeek7 = (coauthor?: string) => {
 	const { view } = useViewport();
 	view.fontFamily('Outfit');
 
@@ -16,7 +16,7 @@ export const useWeek7 = () => {
 
 	if (false as boolean) view.add(<SafeArea />);
 
-	view.add(<Week7Credits />);
+	view.add(<Week7Credits coauthor={coauthor} />);
 
 	bg().fill('rgb(33,36,42)');
 

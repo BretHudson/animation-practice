@@ -41,6 +41,8 @@ export function tToRadians(v: number): number {
 	return v * Math.PI * 2;
 }
 
+// TODO(bret): rename this
+// Gage: placeListItem
 export const positionItemInRow = (
 	i: number,
 	count: number,

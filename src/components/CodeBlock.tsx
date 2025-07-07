@@ -19,6 +19,7 @@ import {
 import {
 	createRef,
 	createSignal,
+	PossibleSpacing,
 	ReferenceReceiver,
 	SignalValue,
 	SimpleSignal,
@@ -56,7 +57,8 @@ export class CodeBlock extends Rect {
 	@canvasStyleSignal()
 	public declare readonly stroke: CanvasStyleSignal<this>;
 
-	@initial(24)
+	public static initialPadding: PossibleSpacing = [24, 24];
+	@initial(CodeBlock.initialPadding)
 	@spacingSignal('padding')
 	public declare readonly padding: SpacingSignal<this>;
 
