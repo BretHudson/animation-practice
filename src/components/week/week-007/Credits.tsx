@@ -16,7 +16,9 @@ import { useViewport } from '~/hooks/useViewport';
 import { getSketchId } from '~/util';
 import { WGTheme } from '~/util/themes';
 
-export interface CreditsProps extends LayoutProps {}
+export interface CreditsProps extends LayoutProps {
+	coauthor?: string;
+}
 
 @nodeName('Week7Credits')
 export class Week7Credits extends Layout {
@@ -52,9 +54,10 @@ export class Week7Credits extends Layout {
 			/>,
 		);
 
+		const author = `Bret Hudson` + (props.coauthor ? ' &' : '');
 		this.add(
 			<Txt
-				text={`Bret Hudson`}
+				text={author}
 				ref={authorTxt}
 				fontWeight={200}
 				fontFamily={'Outfit'}
@@ -63,6 +66,20 @@ export class Week7Credits extends Layout {
 				topRight={sketchTxt().bottomRight}
 			/>,
 		);
+
+		if (props.coauthor) {
+			this.add(
+				<Txt
+					text={props.coauthor}
+					ref={authorTxt}
+					fontWeight={200}
+					fontFamily={'Outfit'}
+					fill={WGTheme.bubbleBg}
+					fontSize={sketchTxt().fontSize() * 0.85}
+					topRight={authorTxt().bottomRight}
+				/>,
+			);
+		}
 
 		const size = new Vector2(view.width(), -view.height());
 		const anchorOffset = size.scale(portrait ? -0.05 : -0.025);

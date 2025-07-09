@@ -2,8 +2,6 @@ import {
 	Icon,
 	Layout,
 	LayoutProps,
-	makeScene2D,
-	Node,
 	nodeName,
 	signal,
 	Txt,
@@ -12,17 +10,11 @@ import {
 	all,
 	createRef,
 	createSignal,
-	DEFAULT,
-	easeOutQuad,
-	makeRef,
 	map,
-	sequence,
+	SignalValue,
 	SimpleSignal,
-	waitFor,
 } from '@motion-canvas/core';
 
-import { useWeek7 } from '~/hooks/useWeek7';
-import { allMap } from '~/util';
 import { WGTheme } from '~/util/themes';
 
 const icons = {
@@ -34,10 +26,10 @@ const icons = {
 	OTHER: 'tabler:file',
 } as const;
 
-type IconKey = keyof typeof icons;
+export type IconKey = keyof typeof icons;
 
-interface FileProps extends LayoutProps {
-	fileName: string;
+export interface FileProps extends LayoutProps {
+	fileName: SignalValue<string>;
 }
 
 @nodeName('File')
