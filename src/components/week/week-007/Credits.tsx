@@ -18,6 +18,8 @@ import { WGTheme } from '~/util/themes';
 
 export interface CreditsProps extends LayoutProps {
 	coauthor?: string;
+	stroke?: string;
+	lineWidth?: number;
 }
 
 @nodeName('Week7Credits')
@@ -51,6 +53,9 @@ export class Week7Credits extends Layout {
 				fill={WGTheme.bubbleBg}
 				fontWeight={600}
 				topRight={anchor}
+				stroke={props.stroke}
+				lineWidth={props.lineWidth}
+				strokeFirst
 			/>,
 		);
 
@@ -59,9 +64,9 @@ export class Week7Credits extends Layout {
 			<Txt
 				text={author}
 				ref={authorTxt}
-				fontWeight={200}
+				fontWeight={props.stroke ? 400 : 200}
 				fontFamily={'Outfit'}
-				fill={WGTheme.bubbleBg}
+				fill={props.stroke ?? WGTheme.bubbleBg}
 				fontSize={sketchTxt().fontSize() * 0.85}
 				topRight={sketchTxt().bottomRight}
 			/>,
@@ -72,9 +77,9 @@ export class Week7Credits extends Layout {
 				<Txt
 					text={props.coauthor}
 					ref={authorTxt}
-					fontWeight={200}
+					fontWeight={props.stroke ? 400 : 200}
 					fontFamily={'Outfit'}
-					fill={WGTheme.bubbleBg}
+					fill={props.stroke ?? WGTheme.bubbleBg}
 					fontSize={sketchTxt().fontSize() * 0.85}
 					topRight={authorTxt().bottomRight}
 				/>,
