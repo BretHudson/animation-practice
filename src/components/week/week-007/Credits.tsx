@@ -24,6 +24,10 @@ export interface CreditsProps extends LayoutProps {
 
 @nodeName('Week7Credits')
 export class Week7Credits extends Layout {
+	public sketchTxt = createRef<Txt>();
+	public authorTxt = createRef<Txt>();
+	public coauthorTxt = createRef<Txt>();
+
 	public constructor(props: CreditsProps) {
 		super(props);
 
@@ -38,9 +42,6 @@ export class Week7Credits extends Layout {
 		this.height(view.height());
 		this.padding([50, 50]);
 
-		const sketchTxt = createRef<Txt>();
-		const authorTxt = createRef<Txt>();
-
 		this.textAlign('left');
 
 		const anchor = createSignal(new Vector2());
@@ -48,7 +49,7 @@ export class Week7Credits extends Layout {
 		this.add(
 			<Txt
 				text={`Sketch #${sketchId.toString().padStart(3, '0')}`}
-				ref={sketchTxt}
+				ref={this.sketchTxt}
 				fontFamily={'Outfit'}
 				fill={WGTheme.bubbleBg}
 				fontWeight={600}
@@ -63,12 +64,12 @@ export class Week7Credits extends Layout {
 		this.add(
 			<Txt
 				text={author}
-				ref={authorTxt}
+				ref={this.authorTxt}
 				fontWeight={props.stroke ? 400 : 200}
 				fontFamily={'Outfit'}
 				fill={props.stroke ?? WGTheme.bubbleBg}
-				fontSize={sketchTxt().fontSize() * 0.85}
-				topRight={sketchTxt().bottomRight}
+				fontSize={this.sketchTxt().fontSize() * 0.85}
+				topRight={this.sketchTxt().bottomRight}
 			/>,
 		);
 
@@ -76,12 +77,12 @@ export class Week7Credits extends Layout {
 			this.add(
 				<Txt
 					text={props.coauthor}
-					ref={authorTxt}
+					ref={this.coauthorTxt}
 					fontWeight={props.stroke ? 400 : 200}
 					fontFamily={'Outfit'}
 					fill={props.stroke ?? WGTheme.bubbleBg}
-					fontSize={sketchTxt().fontSize() * 0.85}
-					topRight={authorTxt().bottomRight}
+					fontSize={this.sketchTxt().fontSize() * 0.85}
+					topRight={this.authorTxt().bottomRight}
 				/>,
 			);
 		}

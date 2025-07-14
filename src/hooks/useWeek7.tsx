@@ -21,7 +21,12 @@ export const useWeek7 = (
 	if (false as boolean) view.add(<SafeArea />);
 
 	view.add(
-		<Week7Credits coauthor={coauthor} stroke={stroke} lineWidth={lineWidth} />,
+		<Week7Credits
+			ref={credits}
+			coauthor={coauthor}
+			stroke={stroke}
+			lineWidth={lineWidth}
+		/>,
 	);
 
 	bg().fill('rgb(33,36,42)');
