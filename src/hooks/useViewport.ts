@@ -25,6 +25,10 @@ export function useViewport() {
 		axes,
 		primaryAxis,
 		crossAxis,
+		dims: axes.map((axis) => (axis === 'x' ? 'width' : 'height')) as [
+			'width' | 'height',
+			'width' | 'height',
+		],
 		byOrientation,
 	};
 }

@@ -26,6 +26,7 @@ export const useWeek7 = (
 			coauthor={coauthor}
 			stroke={stroke}
 			lineWidth={lineWidth}
+			zIndex={99999}
 		/>,
 	);
 
