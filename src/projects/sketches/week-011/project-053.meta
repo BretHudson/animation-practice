@@ -1,14 +1,14 @@
 {
   "version": 0,
   "shared": {
-    "background": "rgb(255,0,254)",
+    "background": "rgb(32,30,29)",
     "range": [
-      0.799999,
-      3.199999
+      0,
+      null
     ],
     "size": {
-      "x": 1920,
-      "y": 1080
+      "x": 1080,
+      "y": 1920
     },
     "audioOffset": 0
   },
