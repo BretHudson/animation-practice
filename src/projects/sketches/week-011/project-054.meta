@@ -1,7 +1,7 @@
 {
   "version": 0,
   "shared": {
-    "background": "rgb(28,26,26)",
+    "background": "rgb(200,30,185)",
     "range": [
       0,
       null
@@ -23,7 +23,7 @@
     "exporter": {
       "name": "@motion-canvas/ffmpeg",
       "options": {
-        "fastStart": false,
+        "fastStart": true,
         "includeAudio": true
       }
     }
