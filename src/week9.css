@@ -6,6 +6,16 @@
 		url(../../../../public/fonts/SHARPIN.otf) format('opentype');
 }
 @font-face {
+	font-family: 'Stamp';
+	src: local('Stamp'),
+		url(../../../../public/fonts/TopSecretStamp-Regular.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'Melted Monster';
+	src: local('Melted Monster'),
+		url('../../../../public/fonts/Melted Monster.ttf') format('truetype');
+}
+@font-face {
 	font-family: 'Chubby Thumbs';
 	src: local('Chubby Thumbs'),
 		url('../../../../public/fonts/Chubby Thumbs.ttf') format('opentype');
